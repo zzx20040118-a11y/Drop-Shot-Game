@@ -36,6 +36,7 @@ namespace DropShot.Judgement
         public event Action<JudgeEvent> Judged;
         public event Action<int> StrikeChargeStarted;
         public event Action<int> StrikeChargeEnded;
+        public event Action<int> StrikeAutoStarted;
         public event Action<int> LongHoldStarted;
         public event Action<int> LongHoldEnded;
 
@@ -88,6 +89,7 @@ namespace DropShot.Judgement
             };
             Core.StrikeChargeStarted += i => StrikeChargeStarted?.Invoke(i);
             Core.StrikeChargeEnded += i => StrikeChargeEnded?.Invoke(i);
+            Core.StrikeAutoStarted += i => StrikeAutoStarted?.Invoke(i);
             Core.LongHoldStarted += i => LongHoldStarted?.Invoke(i);
             Core.LongHoldEnded += i => LongHoldEnded?.Invoke(i);
             Debug.Log($"[Judgement] 读入 {Chart.notes.Count} 个音符");

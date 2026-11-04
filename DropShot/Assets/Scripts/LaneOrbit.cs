@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 [DefaultExecutionOrder(-100)]
 public class LaneOrbit : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class LaneOrbit : MonoBehaviour
 
         if (motion == null)
         {
-            Debug.LogError("場景中找不到 LaneMotion。", this);
+            Debug.LogError("场景中找不到 LaneMotion。", this);
             enabled = false;
             return;
         }
@@ -30,7 +29,6 @@ public class LaneOrbit : MonoBehaviour
         Vector3 position =
             motion.axisCenter + rotation * originalOffset;
 
-       
         position.x = transform.position.x;
 
         transform.position = position;

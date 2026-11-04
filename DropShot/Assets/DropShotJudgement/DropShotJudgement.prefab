@@ -284,9 +284,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffe8caeb26d747e6bcdf6ccc534fe20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropShot.Judgement.JudgementSystem
-  chartJson: {fileID: 4900000, guid: e5b30fe5f6105484f91eab49680e39cc, type: 3}
+  chartJson: {fileID: 4900000, guid: 8f5990d2a9467164d851a17b2f7521bb, type: 3}
   music: {fileID: 1423137090429943375}
   playOnStart: 1
+  readKeyboard: 1
   audioOffsetMs: 0
   lane0Key: 100
   lane1Key: 102

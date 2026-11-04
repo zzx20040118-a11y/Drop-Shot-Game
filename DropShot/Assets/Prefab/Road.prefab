@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 710000002}
   - component: {fileID: 710000003}
   - component: {fileID: 710000004}
-  - component: {fileID: 6666326010119015864}
+  - component: {fileID: 5629498625174237288}
   m_Layer: 0
   m_Name: LeftRail
   m_TagString: Untagged
@@ -91,7 +91,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6666326010119015864
+--- !u!114 &5629498625174237288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 720000002}
   - component: {fileID: 720000003}
   - component: {fileID: 720000004}
-  - component: {fileID: 9145981435583698718}
+  - component: {fileID: 424417455184612332}
   m_Layer: 0
   m_Name: RightRail
   m_TagString: Untagged
@@ -194,7 +194,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9145981435583698718
+--- !u!114 &424417455184612332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

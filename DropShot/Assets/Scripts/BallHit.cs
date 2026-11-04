@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class BallHit : MonoBehaviour
 {
     public AudioSource hitAudio;
-    public bool readKeyboard = true;
+    public bool readKeyboard = false;
     public float hitSize = 1.2f;
     public float recoverSpeed = 8f;
 
@@ -17,7 +17,6 @@ public class BallHit : MonoBehaviour
 
     void Update()
     {
-       
         transform.localScale = Vector3.MoveTowards(
             transform.localScale,
             normalScale,
@@ -38,6 +37,7 @@ public class BallHit : MonoBehaviour
     public void Hit()
     {
         transform.localScale = normalScale * hitSize;
+
         if (hitAudio != null && hitAudio.clip != null)
         {
             hitAudio.PlayOneShot(hitAudio.clip);
