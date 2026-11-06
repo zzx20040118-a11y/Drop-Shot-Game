@@ -3,6 +3,7 @@ using DropShot.Judgement;
 
 public class BallLaneFollow : MonoBehaviour
 {
+    [Header("轨道参考点")]
     public Transform leftHitPoint;
     public Transform rightHitPoint;
 
@@ -21,25 +22,17 @@ public class BallLaneFollow : MonoBehaviour
         {
             Debug.LogError("请指定球的左右 HitPoint。", this);
             enabled = false;
+            return;
         }
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (KeyInput.Down(KeyCode.D))
             currentLane = 0;
 
         if (KeyInput.Down(KeyCode.F))
             currentLane = 1;
-
-        Transform target = currentLane == 0
-            ? leftHitPoint
-            : rightHitPoint;
-
-        if (!followLane)
-            return;
-
-        transform.position = target.position;
     }
 
     public void SetLaneFollow(bool value)
@@ -50,5 +43,15 @@ public class BallLaneFollow : MonoBehaviour
     public int CurrentLane
     {
         get { return currentLane; }
+    }
+
+    public Transform CurrentHitPoint
+    {
+        get
+        {
+            return currentLane == 0
+                ? leftHitPoint
+                : rightHitPoint;
+        }
     }
 }
