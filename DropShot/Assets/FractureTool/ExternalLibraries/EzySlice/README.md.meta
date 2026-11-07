@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d19420932407cf147b42fcb3aea7430c
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/ExternalLibraries/EzySlice/README.md
+  uploadId: 1002440

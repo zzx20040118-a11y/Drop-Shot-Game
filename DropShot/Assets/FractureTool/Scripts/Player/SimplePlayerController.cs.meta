@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4c9747d2cf1933547a790b5835878d12
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Scripts/Player/SimplePlayerController.cs
+  uploadId: 1002440

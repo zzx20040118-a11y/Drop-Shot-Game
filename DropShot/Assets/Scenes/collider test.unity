@@ -957,8 +957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f402b71af21bb40a90b308fe275a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallFlightRotation
-  rotationAxis: {x: 1, y: 0, z: 0}
-  rotationSpeed: 720
 --- !u!114 &666114109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8775,11 +8773,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 710000004, guid: 28fc83f46d572b2428726ee9d075ed8b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 710000004, guid: 28fc83f46d572b2428726ee9d075ed8b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a3a1de3e3f742924081fd63a1a4208f7, type: 2}
     - target: {fileID: 720000001, guid: 28fc83f46d572b2428726ee9d075ed8b, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 720000004, guid: 28fc83f46d572b2428726ee9d075ed8b, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 720000004, guid: 28fc83f46d572b2428726ee9d075ed8b, type: 3}

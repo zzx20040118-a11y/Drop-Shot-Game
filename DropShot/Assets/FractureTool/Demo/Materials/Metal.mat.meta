@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 551cd2ad2f7e87847a03265d8c6959bb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Materials/Metal.mat
+  uploadId: 1002440

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7fb4cd05717de6d42ab29bbe2b81b3bf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Scripts/Fracture/Editor/VoronoiGeneratorEditor.cs
+  uploadId: 1002440

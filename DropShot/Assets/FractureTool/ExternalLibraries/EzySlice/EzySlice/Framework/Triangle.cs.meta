@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ab059f934e838074c89d4239e98e7c6b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/ExternalLibraries/EzySlice/EzySlice/Framework/Triangle.cs
+  uploadId: 1002440

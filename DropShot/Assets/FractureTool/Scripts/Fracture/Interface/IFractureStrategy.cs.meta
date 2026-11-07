@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0eeef60465df7a34bb42be7b5ff1849f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Scripts/Fracture/Interface/IFractureStrategy.cs
+  uploadId: 1002440

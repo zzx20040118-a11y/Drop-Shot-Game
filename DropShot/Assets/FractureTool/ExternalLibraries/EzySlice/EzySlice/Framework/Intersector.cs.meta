@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 31cd35ef4a2f9b840b922130bb979a52
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/ExternalLibraries/EzySlice/EzySlice/Framework/Intersector.cs
+  uploadId: 1002440

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fe03960950c98ac47864110ccf8cd905
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Scripts/DemoManager.cs
+  uploadId: 1002440

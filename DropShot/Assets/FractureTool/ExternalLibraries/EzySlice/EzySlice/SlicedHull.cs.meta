@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 229f74f52ea374d4dbbafe6e4ad7eb48
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/ExternalLibraries/EzySlice/EzySlice/SlicedHull.cs
+  uploadId: 1002440

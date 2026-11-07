@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ad3ffbed7ec5f3d42a1e5a380fa53574
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Meshes/Faceted_Boulder.asset
+  uploadId: 1002440

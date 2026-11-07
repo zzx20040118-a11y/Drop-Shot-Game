@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cfa2bb148aad2104cb07cd236a10997d
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Scripts/Fracture/Editor/FractureTool.Editor.asmdef
+  uploadId: 1002440

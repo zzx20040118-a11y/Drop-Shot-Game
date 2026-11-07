@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1fc698a64c67d7c4e9ba7f6fd1d375aa
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Prefabs/Fracturable_Column.prefab
+  uploadId: 1002440

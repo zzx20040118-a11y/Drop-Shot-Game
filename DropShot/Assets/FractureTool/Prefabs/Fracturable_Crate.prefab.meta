@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e5561ec32fd93a047bf2f3fbcd0d9a09
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Prefabs/Fracturable_Crate.prefab
+  uploadId: 1002440

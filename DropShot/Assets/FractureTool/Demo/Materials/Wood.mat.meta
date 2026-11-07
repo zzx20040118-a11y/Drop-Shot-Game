@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 83304eaeb52ddb44eaa5a629b4e823c0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Materials/Wood.mat
+  uploadId: 1002440

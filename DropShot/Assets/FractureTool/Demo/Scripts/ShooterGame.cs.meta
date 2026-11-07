@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 383ff91a14a7dee46b9332c4d5f5ddfa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Scripts/ShooterGame.cs
+  uploadId: 1002440

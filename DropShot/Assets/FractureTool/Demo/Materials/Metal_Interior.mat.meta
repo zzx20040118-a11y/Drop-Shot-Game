@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1d3af019a0fe8564791517cf9488cf72
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Materials/Metal_Interior.mat
+  uploadId: 1002440

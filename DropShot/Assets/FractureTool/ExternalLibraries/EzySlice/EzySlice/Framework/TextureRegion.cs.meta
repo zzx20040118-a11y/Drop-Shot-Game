@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3911b5d787a188645b829dd57c71f0f2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/ExternalLibraries/EzySlice/EzySlice/Framework/TextureRegion.cs
+  uploadId: 1002440

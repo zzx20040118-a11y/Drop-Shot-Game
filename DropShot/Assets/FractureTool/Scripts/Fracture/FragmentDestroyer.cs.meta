@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 6086c69e25e41624fab73a75718499d6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Scripts/Fracture/FragmentDestroyer.cs
+  uploadId: 1002440

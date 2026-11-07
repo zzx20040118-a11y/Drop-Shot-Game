@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4f1de4e549e50a14d9c5c1d83131963e
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/FractureTool.asmdef
+  uploadId: 1002440

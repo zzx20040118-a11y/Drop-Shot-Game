@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b602acf8d4dc0ca498b4cae2f4160c17
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Scripts/ShooterWeapon.cs
+  uploadId: 1002440

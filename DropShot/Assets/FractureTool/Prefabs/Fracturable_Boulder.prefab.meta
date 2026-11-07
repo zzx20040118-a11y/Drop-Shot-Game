@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2eb189733cda7fd47ba828ebe2cac389
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Prefabs/Fracturable_Boulder.prefab
+  uploadId: 1002440

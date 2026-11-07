@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2657acbe2ee6fcb4288d7bb34dae7d30
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Prefabs/Fracturable_Rock.prefab
+  uploadId: 1002440

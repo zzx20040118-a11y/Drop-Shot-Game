@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cf6349a1d0b6feb43bbd5e63f1b4906c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 410372
+  packageName: Fracture Tool Free
+  packageVersion: 1.0
+  assetPath: Assets/FractureTool/Demo/Materials/Accent_Orange.mat
+  uploadId: 1002440
