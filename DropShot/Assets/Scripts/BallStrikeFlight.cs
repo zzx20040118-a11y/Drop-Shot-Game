@@ -1,5 +1,5 @@
-using UnityEngine;
 using DropShot.Judgement;
+using UnityEngine;
 
 public class BallStrikeFlight : MonoBehaviour
 {
@@ -7,7 +7,7 @@ public class BallStrikeFlight : MonoBehaviour
     {
         Normal,
         Flight,
-        CameraCatchUp
+        CameraCatchUp,
     }
 
     [Header("正常球")]
@@ -143,11 +143,7 @@ public class BallStrikeFlight : MonoBehaviour
 
         currentState = BallState.Flight;
 
-        velocity = new Vector3(
-            -launchForwardSpeed,
-            launchUpSpeed,
-            0f
-        );
+        velocity = new Vector3(-launchForwardSpeed, launchUpSpeed, 0f);
 
         if (ballHit != null)
             ballHit.Hit();
@@ -161,8 +157,7 @@ public class BallStrikeFlight : MonoBehaviour
         velocity.y -= gravity * Time.deltaTime;
         transform.position += velocity * Time.deltaTime;
 
-        if (transform.position.y <= groundY + ballRadius
-            && velocity.y < 0f)
+        if (transform.position.y <= groundY + ballRadius && velocity.y < 0f)
         {
             Land();
         }
@@ -176,6 +171,14 @@ public class BallStrikeFlight : MonoBehaviour
         transform.position = position;
 
         velocity = Vector3.zero;
+
+        // Hand off at the same position before returning to the lane.
+        normalBall.transform.position = transform.position;
+        normalBall.transform.rotation = transform.rotation;
+        SetRenderersVisible(flightRenderers, false);
+        SetRenderersVisible(normalRenderers, true);
+        ballCamera.SetTarget(normalBall.transform);
+
         currentState = BallState.CameraCatchUp;
 
         ballCamera.ReturnToNormal();
@@ -183,11 +186,20 @@ public class BallStrikeFlight : MonoBehaviour
 
     void UpdateCameraCatchUp()
     {
-        if (!ballCamera.IsRecoveryComplete)
+        Transform hitPoint = normalLaneFollow.CurrentHitPoint;
+        if (hitPoint == null)
             return;
 
-        // 同步最终位置
-        normalBall.transform.position = transform.position;
+        normalBall.transform.position = Vector3.MoveTowards(
+            normalBall.transform.position,
+            hitPoint.position,
+            30f * Time.deltaTime
+        );
+
+        if (Vector3.Distance(normalBall.transform.position, hitPoint.position) > 0.03f)
+            return;
+
+        normalBall.transform.position = hitPoint.position;
         normalBall.transform.rotation = transform.rotation;
 
         // 隐藏飞行球

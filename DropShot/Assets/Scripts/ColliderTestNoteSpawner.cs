@@ -53,6 +53,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     private Quaternion[] normalInitialRotations;
     private Rigidbody[] normalBodies;
     private RigidbodyInterpolation[] normalBodyInterpolation;
+    private double noteMoveTime;
 
     class LongSegmentState
     {
@@ -77,6 +78,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         }
 
         var notes = judge.Chart.notes;
+        noteMoveTime = judge.SongTime;
         blocks = new GameObject[notes.Count];
         segmentedLongNotes = new bool[notes.Count];
         normalRotationAxes = new Vector3[notes.Count];
@@ -131,9 +133,27 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         judge.Judged += OnJudged;
     }
 
+    // Called after Start by StrikeWallSpawner to replace a candy with a wall.
+    public void RemoveNoteVisual(int noteIndex)
+    {
+        if (blocks == null || noteIndex < 0 || noteIndex >= blocks.Length)
+            return;
+
+        if (blocks[noteIndex] != null)
+            Destroy(blocks[noteIndex]);
+        blocks[noteIndex] = null;
+    }
+
     void Update()
     {
-        if (!judge.Running || blocks == null)
+        if (judge == null || judge.Core == null || blocks == null)
+            return;
+
+        if (judge.Core.Finished)
+            noteMoveTime = System.Math.Max(noteMoveTime, judge.SongTime) + Time.deltaTime;
+        else if (judge.Running)
+            noteMoveTime = judge.SongTime;
+        else
             return;
 
         for (int i = 0; i < blocks.Length; i++)
@@ -142,7 +162,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
                 continue;
             var note = judge.Chart.notes[i];
 
-            float remaining = (float)(note.time - judge.SongTime);
+            float remaining = (float)(note.time - noteMoveTime);
 
             if (remaining > approachSeconds)
                 continue;

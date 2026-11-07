@@ -45,6 +45,12 @@ public class BallLaneControl : MonoBehaviour
 
     void Update()
     {
+
+        if (laneFollow == null || !laneFollow.enabled)
+        {
+            return;
+        }
+
         if (Keyboard.current == null || laneFollow == null)
         {
             return;
@@ -60,29 +66,27 @@ public class BallLaneControl : MonoBehaviour
             ChangeLane(1);
         }
 
+        if (!laneFollow.enabled || !laneFollow.followLane)
+            return;
+
+        Transform point = currentLane == 0 ? laneFollow.leftHitPoint : laneFollow.rightHitPoint;
+
+        //update target position based on the current lane's hit point
+        targetPosition = point.position;
+
         if (isChangingLane)
         {
             laneChangeTimer += Time.deltaTime;
 
-            float t = Mathf.Clamp01(
-                laneChangeTimer / laneChangeDuration
-            );
+            float t = Mathf.Clamp01(laneChangeTimer / laneChangeDuration);
 
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
             Vector3 position = transform.position;
 
-            position.y = Mathf.Lerp(
-                startPosition.y,
-                targetPosition.y,
-                smoothT
-            );
+            position.y = Mathf.Lerp(startPosition.y, targetPosition.y, smoothT);
 
-            position.z = Mathf.Lerp(
-                startPosition.z,
-                targetPosition.z,
-                smoothT
-            );
+            position.z = Mathf.Lerp(startPosition.z, targetPosition.z, smoothT);
 
             transform.position = position;
 
@@ -96,15 +100,21 @@ public class BallLaneControl : MonoBehaviour
                 isChangingLane = false;
             }
         }
+        else
+        {
+            // if not changing lane, just follow the target position
+            Vector3 position = transform.position;
+            position.y = targetPosition.y;
+            position.z = targetPosition.z;
+            transform.position = position;
+        }
     }
 
     void ChangeLane(int lane)
     {
         currentLane = lane;
 
-        Transform hitPoint = lane == 0
-            ? laneFollow.leftHitPoint
-            : laneFollow.rightHitPoint;
+        Transform hitPoint = lane == 0 ? laneFollow.leftHitPoint : laneFollow.rightHitPoint;
 
         if (hitPoint == null)
         {

@@ -20,6 +20,7 @@ namespace DropShot.Judgement
             public double end;      // Long = time + duration；Strike = targetTime；Normal = time
             public State state;
             public bool strikePressed; // Strike 是否已经按下 Space
+            public bool isStrikeWall;
 
             // Strike 蓄力开始时间
             public double strikeChargeStartTime;
@@ -32,6 +33,7 @@ namespace DropShot.Judgement
         readonly JudgeSettings settings;
         readonly Dictionary<int, int> holding = new Dictionary<int, int>(); // lane -> entries 下标
         int cursor;
+        int wallNoteCount;
 
         public event Action<JudgeEvent> Judged;
         public event Action<int> StrikeChargeStarted;   // 参数 = 谱面下标
@@ -60,7 +62,7 @@ namespace DropShot.Judgement
         public double MaxStrikeChargeDuration { get; set; } = 2.0;
         public int MaxStrikeChargeScore { get; set; } = 300;
 
-        public int NoteCount => entries.Length;
+        public int NoteCount => entries.Length - wallNoteCount;
         public bool Finished => cursor >= entries.Length && holding.Count == 0;
 
         public JudgeCore(IList<ChartNote> notes, JudgeSettings settings)
@@ -92,6 +94,22 @@ namespace DropShot.Judgement
             }
 
             Array.Sort(entries, (a, b) => a.time.CompareTo(b.time));
+        }
+
+        // This normal note becomes scenery for the preceding Strike, not a second input.
+        public bool UseAsStrikeWall(int noteIndex)
+        {
+            for (int k = 0; k < entries.Length; k++)
+            {
+                if (entries[k].index != noteIndex || entries[k].kind != NoteKind.Normal
+                    || entries[k].state != State.Pending || entries[k].isStrikeWall)
+                    continue;
+
+                entries[k].isStrikeWall = true;
+                wallNoteCount++;
+                return true;
+            }
+            return false;
         }
 
         // Returns true only when this press starts a pending charge note.
@@ -324,6 +342,12 @@ namespace DropShot.Judgement
                 if (e.time > t) break;
                 if (e.state != State.Pending) continue;
 
+                if (e.isStrikeWall)
+                {
+                    e.state = State.Done;
+                    continue;
+                }
+
                 double late = e.kind == NoteKind.Strike ? settings.strikePressWindow : settings.goodWindow;
 
                 if (t - e.time > late)
@@ -341,6 +365,7 @@ namespace DropShot.Judgement
             for (int k = cursor; k < entries.Length; k++)
             {
                 Entry e = entries[k];
+                if (e.isStrikeWall) continue;
                 double window = e.kind == NoteKind.Strike ? settings.strikePressWindow : settings.missWindow;
 
                 if (e.time - t > settings.missWindow + settings.strikePressWindow) break;

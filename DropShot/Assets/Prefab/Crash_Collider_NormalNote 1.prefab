@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4715080522393088038}
   - component: {fileID: 2588895645544539828}
   - component: {fileID: -8094360745441012712}
+  - component: {fileID: -8991079992802228594}
   m_Layer: 0
   m_Name: Crash_Collider_NormalNote 1
   m_TagString: Untagged
@@ -211,3 +212,19 @@ MonoBehaviour:
   useExplosionForce: 1
   explosionForce: 2
   fractureController: {fileID: 2588895645544539828}
+--- !u!114 &-8991079992802228594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428368005516465391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d317030dadd21440af971d10ddef2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropShot.Environment.CandyBeatSpin
+  degreesPerBeat: 90
+  beatSquash: 0.06
+  holdingBreathSpeed: 0.3
+  randomAxis: 1
