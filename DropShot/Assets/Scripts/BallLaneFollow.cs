@@ -10,9 +10,16 @@ public class BallLaneFollow : MonoBehaviour
     [Header("轨道跟随")]
     public bool followLane = true;
 
-    private int currentLane = 0;
+    [Header("球体转向")]
+    public Transform ballRotationTarget;
+    public float rotationSpeed = 8f;
+    public float leftLaneRotation = -15f;
+    public float rightLaneRotation = 15f;
 
+    private int currentLane = 0;
     private BallCameraFollow ballCamera;
+
+    private Quaternion targetRotation;
 
     void Start()
     {
@@ -24,15 +31,43 @@ public class BallLaneFollow : MonoBehaviour
             enabled = false;
             return;
         }
+
+        if (ballRotationTarget == null)
+            ballRotationTarget = transform;
+
+        targetRotation = ballRotationTarget.rotation;
     }
 
     void Update()
     {
         if (KeyInput.Down(KeyCode.D))
+        {
             currentLane = 0;
+            UpdateBallRotation();
+        }
 
         if (KeyInput.Down(KeyCode.F))
+        {
             currentLane = 1;
+            UpdateBallRotation();
+        }
+
+        // 平滑旋转球体（世界坐标）
+        ballRotationTarget.rotation = Quaternion.Slerp(
+            ballRotationTarget.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
+    }
+
+    void UpdateBallRotation()
+    {
+        float xRotation = currentLane == 0
+            ? -leftLaneRotation
+            : -rightLaneRotation;
+
+        // 使用世界坐标 X 轴旋转
+        targetRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 
     public void SetLaneFollow(bool value)
