@@ -2,7 +2,7 @@
   "bpm": 122.28,
   "musicOffset": 0,
   "notes": [
-    {"type":"Normal","lane":0,"time":0.043,"duration":0,"targetTime":0},
+    {"type":"Normal","lane":0,"time":0.531,"duration":0,"targetTime":0},
     {"type":"Normal","lane":1,"time":1.024,"duration":0,"targetTime":0},
     {"type":"Normal","lane":0,"time":2.005,"duration":0,"targetTime":0},
     {"type":"Normal","lane":1,"time":2.987,"duration":0,"targetTime":0},
@@ -61,7 +61,6 @@
     {"type":"Normal","lane":1,"time":55.979,"duration":0,"targetTime":0},
     {"type":"Normal","lane":0,"time":56.96,"duration":0,"targetTime":0},
     {"type":"Normal","lane":1,"time":57.941,"duration":0,"targetTime":0},
-    {"type":"Normal","lane":0,"time":58.923,"duration":0,"targetTime":0},
-    {"type":"Normal","lane":1,"time":59.904,"duration":0,"targetTime":0}
-  ]
+    {"type":"Strike","lane":-1,"time":58,"duration":0,"targetTime":59.904}
+    ]
 }
