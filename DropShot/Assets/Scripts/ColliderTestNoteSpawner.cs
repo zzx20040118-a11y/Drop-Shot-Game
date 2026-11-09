@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DropShot.Judgement;
 using FractureTool;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ColliderTestNoteSpawner : MonoBehaviour
 {
@@ -12,6 +13,15 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     [Header("音符 Prefab")]
     public GameObject normalNotePrefab;
     public GameObject longNotePrefab;
+
+    [Header("Hit Effects")]
+    public GameObject perfectHitEffectPrefab;
+    public GameObject goodHitEffectPrefab;
+    public GameObject longPerfectHitEffectPrefab;
+    [FormerlySerializedAs("longHitEffectPrefab")]
+    public GameObject longGoodHitEffectPrefab;
+    [FormerlySerializedAs("perfectHitBall")]
+    public Transform hitBall;
 
     [Header("短音随机模型（留空则使用 Normal Note Prefab）")]
     public GameObject[] normalNotePrefabs = new GameObject[0];
@@ -45,7 +55,11 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     [Min(0.01f)]
     public float segmentScale = 1f;
 
-    private GameObject[] blocks;
+    [Header("短音彈飛")]
+    public Vector3 hitImpulse = new Vector3(5f, 5f, 0f);
+    public float cleanupDelay = 3f;
+
+    private GameObject[] noteObjects;
     private bool[] segmentedLongNotes;
     private Vector3[] normalRotationAxes;
     private float[] normalRotationFactors;
@@ -58,28 +72,26 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     class LongSegmentState
     {
         public readonly List<Transform> segments = new List<Transform>();
-        public int next;
-        public bool holding;
+        public int nextSegmentIndex;
+        public bool isHolding;
+        public float halfSegmentLength;
+        public GameObject hitEffect;
     }
 
     private readonly Dictionary<int, LongSegmentState> longSegments =
         new Dictionary<int, LongSegmentState>();
 
-    [Header("短音彈飛")]
-    public Vector3 hitImpulse = new Vector3(5f, 5f, 0f);
-    public float cleanupDelay = 3f;
-
     void Start()
     {
         if (judge == null || judge.Chart == null)
         {
-            Debug.LogError("BeatmapNoteSpawner: JudgementSystem 或 Chart 未设置！");
+            Debug.LogError("ColliderTestNoteSpawner needs a JudgementSystem and chart.", this);
             return;
         }
 
         var notes = judge.Chart.notes;
         noteMoveTime = judge.SongTime;
-        blocks = new GameObject[notes.Count];
+        noteObjects = new GameObject[notes.Count];
         segmentedLongNotes = new bool[notes.Count];
         normalRotationAxes = new Vector3[notes.Count];
         normalRotationFactors = new float[notes.Count];
@@ -88,65 +100,75 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         normalBodies = new Rigidbody[notes.Count];
         normalBodyInterpolation = new RigidbodyInterpolation[notes.Count];
 
-        for (int i = 0; i < notes.Count; i++)
+        for (int noteIndex = 0; noteIndex < notes.Count; noteIndex++)
         {
-            var note = notes[i];
+            var note = notes[noteIndex];
 
             if (note.type == "Normal")
             {
-                GameObject prefab = PickRandomPrefab(normalNotePrefabs, normalNotePrefab);
-                if (prefab == null)
-                {
-                    Debug.LogWarning("短音没有可用 Prefab，请设置 Normal Note Prefabs 或 Normal Note Prefab。", this);
-                    continue;
-                }
-                blocks[i] = Instantiate(prefab);
-                normalInitialRotations[i] = blocks[i].transform.rotation;
-                normalBodies[i] = blocks[i].GetComponent<Rigidbody>();
-                if (normalBodies[i] != null)
-                {
-                    normalBodyInterpolation[i] = normalBodies[i].interpolation;
-                    // Approach movement is driven by the song clock, not physics.
-                    normalBodies[i].interpolation = RigidbodyInterpolation.None;
-                }
-                normalRotationAxes[i] = Random.onUnitSphere;
-                normalRotationFactors[i] = Random.value;
-                blocks[i].SetActive(false);
+                CreateNormalNote(noteIndex);
             }
             else if (note.type == "Long")
             {
-                blocks[i] = Instantiate(longNotePrefab);
-                blocks[i].SetActive(false);
-
-                // 长条长度 = 持续时间 × 音符移动速度
-                float length = note.duration * approachSpeed;
-
-                GameObject selectedSegment = PickRandomPrefab(segmentPrefabs, segmentPrefab);
-                if (selectedSegment != null)
-                {
-                    CreateLongNoteSegments(blocks[i], length, i, selectedSegment);
-                    segmentedLongNotes[i] = longSegments.ContainsKey(i);
-                }
+                CreateLongNote(noteIndex);
             }
         }
 
         judge.Judged += OnJudged;
     }
 
+    void CreateNormalNote(int noteIndex)
+    {
+        GameObject prefab = PickRandomPrefab(normalNotePrefabs, normalNotePrefab);
+        if (prefab == null)
+        {
+            Debug.LogWarning("Normal note prefab is not assigned.", this);
+            return;
+        }
+
+        noteObjects[noteIndex] = Instantiate(prefab);
+        normalInitialRotations[noteIndex] = noteObjects[noteIndex].transform.rotation;
+        normalBodies[noteIndex] = noteObjects[noteIndex].GetComponent<Rigidbody>();
+        if (normalBodies[noteIndex] != null)
+        {
+            normalBodyInterpolation[noteIndex] = normalBodies[noteIndex].interpolation;
+            // The song clock controls approach movement.
+            normalBodies[noteIndex].interpolation = RigidbodyInterpolation.None;
+        }
+
+        normalRotationAxes[noteIndex] = Random.onUnitSphere;
+        normalRotationFactors[noteIndex] = Random.value;
+        noteObjects[noteIndex].SetActive(false);
+    }
+
+    void CreateLongNote(int noteIndex)
+    {
+        noteObjects[noteIndex] = Instantiate(longNotePrefab);
+        noteObjects[noteIndex].SetActive(false);
+        float length = judge.Chart.notes[noteIndex].duration * approachSpeed;
+        GameObject selectedSegment = PickRandomPrefab(segmentPrefabs, segmentPrefab);
+
+        if (selectedSegment != null)
+        {
+            CreateLongNoteSegments(noteObjects[noteIndex], length, noteIndex, selectedSegment);
+            segmentedLongNotes[noteIndex] = longSegments.ContainsKey(noteIndex);
+        }
+    }
+
     // Called after Start by StrikeWallSpawner to replace a candy with a wall.
     public void RemoveNoteVisual(int noteIndex)
     {
-        if (blocks == null || noteIndex < 0 || noteIndex >= blocks.Length)
+        if (noteObjects == null || noteIndex < 0 || noteIndex >= noteObjects.Length)
             return;
 
-        if (blocks[noteIndex] != null)
-            Destroy(blocks[noteIndex]);
-        blocks[noteIndex] = null;
+        if (noteObjects[noteIndex] != null)
+            Destroy(noteObjects[noteIndex]);
+        noteObjects[noteIndex] = null;
     }
 
     void Update()
     {
-        if (judge == null || judge.Core == null || blocks == null)
+        if (judge == null || judge.Core == null || noteObjects == null)
             return;
 
         if (judge.Core.Finished)
@@ -156,31 +178,27 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         else
             return;
 
-        for (int i = 0; i < blocks.Length; i++)
+        for (int noteIndex = 0; noteIndex < noteObjects.Length; noteIndex++)
         {
-            if (blocks[i] == null)
+            if (noteObjects[noteIndex] == null)
                 continue;
-            var note = judge.Chart.notes[i];
+            var note = judge.Chart.notes[noteIndex];
 
             float remaining = (float)(note.time - noteMoveTime);
 
             if (remaining > approachSeconds)
                 continue;
 
-            Transform hitPoint = note.lane == 0 ? leftHitPoint : rightHitPoint;
+            Transform hitPoint = GetHitPoint(note.lane);
 
             Vector3 headPosition = hitPoint.position - Vector3.right * remaining * approachSpeed;
 
             if (note.type == "Long")
             {
                 float length = note.duration * approachSpeed;
-
-                // 头部在正 X 端；尾部在 duration 秒后通过判定点。
-                blocks[i].transform.position = headPosition - Vector3.right * length * 0.5f;
-
-                // 长条沿 X 轴延伸
-                if (!segmentedLongNotes[i])
-                    blocks[i].transform.localScale = new Vector3(
+                noteObjects[noteIndex].transform.position = headPosition - Vector3.right * length * 0.5f;
+                if (!segmentedLongNotes[noteIndex])
+                    noteObjects[noteIndex].transform.localScale = new Vector3(
                         length,
                         longNoteWidth,
                         longNoteWidth
@@ -188,32 +206,61 @@ public class ColliderTestNoteSpawner : MonoBehaviour
             }
             else
             {
-                blocks[i].transform.position = headPosition;
+                noteObjects[noteIndex].transform.position = headPosition;
                 if (rotateNormalNotes && note.type == "Normal")
-                {
-                    // Read the range live so UI changes also affect existing candy.
-                    float minSpeed = Mathf.Max(0f, Mathf.Min(normalRotationSpeed.x, normalRotationSpeed.y));
-                    float maxSpeed = Mathf.Max(minSpeed, Mathf.Max(normalRotationSpeed.x, normalRotationSpeed.y));
-                    float speed = Mathf.Lerp(minSpeed, maxSpeed, normalRotationFactors[i]);
-                    // Start at the prefab's orientation and accumulate only
-                    // while visible, avoiding a clock-based jump on appearance.
-                    if (blocks[i].activeInHierarchy)
-                        normalRotationAngles[i] = Mathf.Repeat(
-                            normalRotationAngles[i] + speed * Time.deltaTime,
-                            360f);
-                    Quaternion rotation = normalInitialRotations[i] * Quaternion.AngleAxis(
-                        normalRotationAngles[i], normalRotationAxes[i]);
-                    if (normalBodies[i] != null && normalBodies[i].isKinematic)
-                        normalBodies[i].rotation = rotation;
-                    blocks[i].transform.rotation = rotation;
-                }
+                    RotateNormalNote(noteIndex);
             }
 
-            blocks[i].SetActive(true);
+            noteObjects[noteIndex].SetActive(true);
         }
     }
 
-    // Ignore empty slots and keep existing scene references as a fallback.
+    void RotateNormalNote(int noteIndex)
+    {
+        float minSpeed = Mathf.Max(0f, Mathf.Min(normalRotationSpeed.x, normalRotationSpeed.y));
+        float maxSpeed = Mathf.Max(minSpeed, Mathf.Max(normalRotationSpeed.x, normalRotationSpeed.y));
+        float speed = Mathf.Lerp(minSpeed, maxSpeed, normalRotationFactors[noteIndex]);
+
+        if (noteObjects[noteIndex].activeInHierarchy)
+        {
+            normalRotationAngles[noteIndex] = Mathf.Repeat(
+                normalRotationAngles[noteIndex] + speed * Time.deltaTime, 360f);
+        }
+
+        Quaternion rotation = normalInitialRotations[noteIndex] * Quaternion.AngleAxis(
+            normalRotationAngles[noteIndex], normalRotationAxes[noteIndex]);
+
+        Rigidbody body = normalBodies[noteIndex];
+        if (body != null && body.isKinematic)
+        {
+            body.rotation = rotation;
+        }
+        noteObjects[noteIndex].transform.rotation = rotation;
+    }
+
+    Transform GetHitPoint(int lane)
+    {
+        if (lane == 0)
+        {
+            return leftHitPoint;
+        }
+        return rightHitPoint;
+    }
+
+    Vector3 GetHitImpulse(int lane)
+    {
+        Vector3 impulse = hitImpulse;
+        if (lane == 0)
+        {
+            impulse.z = -Mathf.Abs(hitImpulse.z);
+        }
+        else
+        {
+            impulse.z = Mathf.Abs(hitImpulse.z);
+        }
+        return impulse;
+    }
+
     static GameObject PickRandomPrefab(GameObject[] choices, GameObject fallback)
     {
         if (choices == null)
@@ -229,8 +276,15 @@ public class ColliderTestNoteSpawner : MonoBehaviour
 
         int selected = Random.Range(0, count);
         foreach (GameObject choice in choices)
-            if (choice != null && selected-- == 0)
+        {
+            if (choice == null)
+                continue;
+
+            if (selected == 0)
                 return choice;
+
+            selected--;
+        }
 
         return fallback;
     }
@@ -239,8 +293,6 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     {
         note.transform.localScale = Vector3.one;
         note.transform.localRotation = Quaternion.identity;
-
-        // 用包装物体旋转模型，保留导入模型内部的缩放和坐标。
         GameObject template = new GameObject("SegmentTemplate");
         template.transform.SetParent(note.transform, false);
         GameObject model = Instantiate(selectedPrefab, template.transform, false);
@@ -258,8 +310,6 @@ public class ColliderTestNoteSpawner : MonoBehaviour
             Destroy(template);
             return;
         }
-
-        // 按旋转后的实际边界计算，补偿模型中心偏移，避免头尾超出判定时间。
         float gap = Mathf.Clamp(segmentSpacing, 0f, bounds.size.x);
         int count = Mathf.Max(1, Mathf.CeilToInt((length + gap) / (bounds.size.x + gap)));
         float fittedLength = (length - gap * (count - 1)) / count;
@@ -271,6 +321,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         fitted.transform.localPosition = new Vector3(-length * 0.5f + fittedLength * 0.5f, 0f, 0f);
 
         var state = new LongSegmentState();
+        state.halfSegmentLength = fittedLength * 0.5f;
         state.segments.Add(fitted.transform);
 
         for (int i = 1; i < count; i++)
@@ -282,10 +333,8 @@ public class ColliderTestNoteSpawner : MonoBehaviour
             state.segments.Add(segment.transform);
         }
 
-        state.next = count - 1;
+        state.nextSegmentIndex = count - 1;
         longSegments[noteIndex] = state;
-
-        // 根物体只负责移动；分段经过判定点后各自弹飞。
         Renderer rootRenderer = note.GetComponent<Renderer>();
         if (rootRenderer != null)
             rootRenderer.enabled = false;
@@ -302,14 +351,14 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     {
         var chartNote = judge.Chart.notes[noteIndex];
 
-        while (note != null && state.holding && state.next >= 0)
+        while (note != null && state.isHolding && state.nextSegmentIndex >= 0)
         {
-            Transform segment = state.segments[state.next];
+            Transform segment = state.segments[state.nextSegmentIndex];
 
-            // Local X already includes each segment's fitted width and spacing.
-            // Its center reaches HitPoint at this song time.
+            // Break when the leading edge reaches HitPoint.
             double releaseTime =
-                chartNote.time + chartNote.duration * 0.5 - segment.localPosition.x / approachSpeed;
+                chartNote.time + chartNote.duration * 0.5
+                - (segment.localPosition.x + state.halfSegmentLength) / approachSpeed;
 
             if (!judge.Running || judge.SongTime < releaseTime)
             {
@@ -317,7 +366,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
                 continue;
             }
 
-            state.next--;
+            state.nextSegmentIndex--;
             LaunchLongSegment(segment, noteIndex);
             // Spread overdue segments across frames instead of bursting at once.
             yield return null;
@@ -327,7 +376,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     void LaunchLongSegment(Transform segment, int noteIndex)
     {
         var chartNote = judge.Chart.notes[noteIndex];
-        Transform hitPoint = chartNote.lane == 0 ? leftHitPoint : rightHitPoint;
+        Transform hitPoint = GetHitPoint(chartNote.lane);
 
         // Judgement and spawner Update can run in either order. Synchronize the
         // root before detaching so debris does not start at last frame's position.
@@ -353,10 +402,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
             Physics.SyncTransforms();
             fracture.Fracture();
 
-            Vector3 debrisVelocity = hitImpulse;
-            debrisVelocity.z =
-                chartNote.lane == 0 ? -Mathf.Abs(hitImpulse.z) : Mathf.Abs(hitImpulse.z);
-
+            Vector3 debrisVelocity = GetHitImpulse(chartNote.lane);
 
             foreach (Rigidbody debris in segment.GetComponentsInChildren<Rigidbody>())
             {
@@ -376,8 +422,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         rb.useGravity = true;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
 
-        Vector3 impulse = hitImpulse;
-        impulse.z = chartNote.lane == 0 ? -Mathf.Abs(hitImpulse.z) : Mathf.Abs(hitImpulse.z);
+        Vector3 impulse = GetHitImpulse(chartNote.lane);
         rb.AddForce(impulse, ForceMode.Impulse);
         Destroy(segment.gameObject, cleanupDelay);
     }
@@ -419,128 +464,187 @@ public class ColliderTestNoteSpawner : MonoBehaviour
 
     void OnJudged(JudgeEvent result)
     {
-        if (blocks == null)
+        if (noteObjects == null || result.noteIndex < 0 || result.noteIndex >= noteObjects.Length)
             return;
 
         if (result.kind == NoteKind.Normal && result.phase == JudgePhase.Head)
         {
-            int i = result.noteIndex;
-            GameObject note = blocks[i];
+            HandleNormalNote(result);
+        }
+        else if (result.kind == NoteKind.Long)
+        {
+            HandleLongNote(result);
+        }
+    }
 
-            if (note == null)
-                return;
+    void HandleNormalNote(JudgeEvent result)
+    {
+        int noteIndex = result.noteIndex;
+        GameObject note = noteObjects[noteIndex];
 
-            if (result.result != JudgeResult.Miss)
+        if (note == null)
+            return;
+
+        if (result.result != JudgeResult.Miss)
+        {
+            Transform hitPoint = GetHitPoint(result.lane);
+
+            float remaining = (float)(judge.Chart.notes[noteIndex].time - judge.SongTime);
+            note.transform.position = hitPoint.position - Vector3.right * remaining * approachSpeed;
+
+            if (result.result == JudgeResult.Perfect)
             {
-                FractureController fracture = note.GetComponent<FractureController>();
-                if (fracture != null)
-                {
-                    note.SetActive(true);
-                    // Release the note from movement before replacing it with debris.
-                    blocks[i] = null;
-                    Physics.SyncTransforms();
-                    fracture.Fracture();
-                    Destroy(note, cleanupDelay);
-                    return;
-                }
-
-                Rigidbody rb = note.GetComponent<Rigidbody>();
-                if (rb == null)
-                    return;
-
-                note.SetActive(true);
-                blocks[i] = null;
-
-                rb.isKinematic = false;
-                rb.interpolation = normalBodyInterpolation[i];
-                Vector3 impulse = hitImpulse;
-
-                if (result.lane == 0)
-                {
-                    impulse.z = -Mathf.Abs(hitImpulse.z);
-                }
-                else
-                {
-                    impulse.z = Mathf.Abs(hitImpulse.z);
-                }
-
-                rb.AddForce(impulse, ForceMode.Impulse);
+                PlayHitEffect(perfectHitEffectPrefab);
+            }
+            else if (result.result == JudgeResult.Good)
+            {
+                PlayHitEffect(goodHitEffectPrefab);
             }
 
-            Destroy(note, cleanupDelay);
+            FractureController fracture = note.GetComponent<FractureController>();
+            if (fracture != null)
+            {
+                note.SetActive(true);
+                // Release the note from movement before replacing it with debris.
+                noteObjects[noteIndex] = null;
+                Physics.SyncTransforms();
+                fracture.Fracture();
+                Destroy(note, cleanupDelay);
+                return;
+            }
+
+            Rigidbody rb = note.GetComponent<Rigidbody>();
+            if (rb == null)
+                return;
+
+            note.SetActive(true);
+            noteObjects[noteIndex] = null;
+
+            rb.isKinematic = false;
+            rb.interpolation = normalBodyInterpolation[noteIndex];
+            rb.AddForce(GetHitImpulse(result.lane), ForceMode.Impulse);
         }
 
-        if (result.kind == NoteKind.Long)
+        Destroy(note, cleanupDelay);
+    }
+
+    void HandleLongNote(JudgeEvent result)
+    {
+        int noteIndex = result.noteIndex;
+        GameObject note = noteObjects[noteIndex];
+
+        if (note == null)
+            return;
+
+        if (longSegments.TryGetValue(noteIndex, out LongSegmentState state))
         {
-            int i = result.noteIndex;
-            GameObject note = blocks[i];
-
-            if (note == null)
-                return;
-
-            if (longSegments.TryGetValue(i, out LongSegmentState state))
-            {
-                if (result.phase == JudgePhase.Head)
-                {
-                    if (result.result != JudgeResult.Miss && !state.holding)
-                    {
-                        note.SetActive(true);
-                        state.holding = true;
-                        StartCoroutine(FlyLongSegments(i, note, state));
-                    }
-                    else if (result.result == JudgeResult.Miss)
-                    {
-                        longSegments.Remove(i);
-                        Destroy(note, cleanupDelay);
-                    }
-                }
-                else if (result.phase == JudgePhase.Tail)
-                {
-                    state.holding = false;
-
-                    longSegments.Remove(i);
-                    Destroy(note, cleanupDelay);
-                }
-
-                return;
-            }
-
             if (result.phase == JudgePhase.Head)
             {
-                if (result.result == JudgeResult.Miss)
+                if (result.result != JudgeResult.Miss && !state.isHolding)
+                {
+                    note.SetActive(true);
+                    state.isHolding = true;
+                    if (result.result == JudgeResult.Perfect)
+                    {
+                        state.hitEffect = PlayHitEffect(longPerfectHitEffectPrefab, 0.1f);
+                    }
+                    else if (result.result == JudgeResult.Good)
+                    {
+                        state.hitEffect = PlayHitEffect(longGoodHitEffectPrefab, 0.1f);
+                    }
+                    StartCoroutine(FlyLongSegments(noteIndex, note, state));
+                }
+                else if (result.result == JudgeResult.Miss)
+                {
+                    longSegments.Remove(noteIndex);
                     Destroy(note, cleanupDelay);
-
-                return;
+                }
             }
-
-            if (result.phase != JudgePhase.Tail)
-                return;
-
-            if (result.result != JudgeResult.Miss)
+            else if (result.phase == JudgePhase.Tail)
             {
-                Rigidbody rb = note.GetComponent<Rigidbody>();
-                if (rb == null)
-                    return;
+                state.isHolding = false;
+                Destroy(state.hitEffect);
 
-                blocks[i] = null;
-                rb.isKinematic = false;
+                if (result.result != JudgeResult.Miss)
+                {
+                    while (state.nextSegmentIndex >= 0)
+                    {
+                        Transform segment = state.segments[state.nextSegmentIndex];
+                        state.nextSegmentIndex--;
 
-                Vector3 impulse = hitImpulse;
-                impulse.z = Mathf.Abs(hitImpulse.z);
+                        if (segment != null)
+                        {
+                            LaunchLongSegment(segment, noteIndex);
+                        }
+                    }
+                }
 
-                if (result.lane == 0)
-                    impulse.z = -impulse.z;
-
-                rb.AddForce(impulse, ForceMode.Impulse);
+                longSegments.Remove(noteIndex);
+                Destroy(note, cleanupDelay);
             }
 
-            Destroy(note, cleanupDelay);
+            return;
         }
+
+        if (result.phase == JudgePhase.Head)
+        {
+            if (result.result == JudgeResult.Miss)
+                Destroy(note, cleanupDelay);
+
+            return;
+        }
+
+        if (result.phase != JudgePhase.Tail)
+            return;
+
+        if (result.result != JudgeResult.Miss)
+        {
+            Rigidbody rb = note.GetComponent<Rigidbody>();
+            if (rb == null)
+                return;
+
+            noteObjects[noteIndex] = null;
+            rb.isKinematic = false;
+
+            rb.AddForce(GetHitImpulse(result.lane), ForceMode.Impulse);
+        }
+
+        Destroy(note, cleanupDelay);
+    }
+
+    GameObject PlayHitEffect(GameObject effectPrefab, float distanceBehindBall = 0.65f)
+    {
+        if (effectPrefab == null || hitBall == null)
+        {
+            return null;
+        }
+
+        Camera mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            return null;
+        }
+
+        Vector3 effectPosition = hitBall.position;
+        effectPosition += mainCamera.transform.forward * distanceBehindBall;
+
+        GameObject effect = Instantiate(
+            effectPrefab,
+            effectPosition,
+            mainCamera.transform.rotation);
+
+        effect.transform.SetParent(hitBall, true);
+        return effect;
     }
 
     void OnDestroy()
     {
         if (judge != null)
             judge.Judged -= OnJudged;
+
+        foreach (LongSegmentState state in longSegments.Values)
+        {
+            Destroy(state.hitEffect);
+        }
     }
 }

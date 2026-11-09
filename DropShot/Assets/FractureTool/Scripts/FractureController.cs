@@ -297,6 +297,9 @@ namespace FractureTool
             previewMode = !previewMode;
         }
 
+        // Enabled only for strike walls; other fractured objects keep their lifetime.
+        [System.NonSerialized] public float fragmentFadeSeconds;
+
         public void ConfigureUniversalFragment(GameObject fragment, Vector3 seedPosition = default, int index = 0)
         {
             if (fragment == null) return;
@@ -339,6 +342,9 @@ namespace FractureTool
             fragment.transform.position += displacement;
 
             ApplyPhysicsConfiguration(fragment);
+
+            if (fragmentFadeSeconds > 0f)
+                fragment.AddComponent<WallVisualFade>().Begin(fragmentFadeSeconds);
 
             if (autoDestroy)
             {

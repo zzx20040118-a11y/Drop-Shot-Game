@@ -13,6 +13,13 @@ public class StrikeWallSpawner : MonoBehaviour
     public GameObject wallPrefab;
     public BallCameraFollow ballCamera;
 
+    [Header("Wall Appearance")]
+    [Min(0f)] public float wallShowDelay = 0.2f;
+
+    [Header("墙与碎片淡出")]
+    [Min(0.01f)] public float wallFadeSeconds = 0.2f;
+    [Min(0.01f)] public float fragmentFadeSeconds = 0.3f;
+
     class Wall
     {
         public int strikeIndex;
@@ -20,6 +27,7 @@ public class StrikeWallSpawner : MonoBehaviour
         public GameObject model;
         public bool strikeSucceeded;
         public bool finished;
+        public bool fading;
     }
 
     readonly List<Wall> walls = new List<Wall>();
@@ -81,7 +89,13 @@ public class StrikeWallSpawner : MonoBehaviour
         {
             if (wall.finished || wall.model == null) continue;
             float remaining = (float)(wall.hitTime - judge.SongTime);
-            if (remaining > noteSpawner.approachSeconds) continue;
+            float visibleTimeBeforeHit = noteSpawner.approachSeconds - wallShowDelay;
+            visibleTimeBeforeHit = Mathf.Max(0f, visibleTimeBeforeHit);
+
+            if (remaining > visibleTimeBeforeHit)
+            {
+                continue;
+            }
 
             wall.model.SetActive(true);
             wall.model.transform.position = wallHitPoint.position
@@ -91,17 +105,18 @@ public class StrikeWallSpawner : MonoBehaviour
             {
                 Physics.SyncTransforms();
                 FractureController fracture = wall.model.GetComponent<FractureController>();
+                fracture.fragmentFadeSeconds = fragmentFadeSeconds;
                 fracture.Fracture();
                 if (ballCamera != null)
                     ballCamera.ShakeStrike();
                 wall.finished = true;
                 Destroy(wall.model, fracture.destroyAfterSeconds);
             }
-            else if (remaining < -0.3f)
+            else if (remaining <= 0f && !wall.fading)
             {
-                // Strike already reports its own Miss; do not add another one.
-                wall.finished = true;
-                Destroy(wall.model);
+                // Keep moving while fading after passing the ball.
+                wall.fading = true;
+                wall.model.AddComponent<WallVisualFade>().Begin(wallFadeSeconds);
             }
         }
     }

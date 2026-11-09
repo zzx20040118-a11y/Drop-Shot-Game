@@ -1267,6 +1267,11 @@ MonoBehaviour:
   judge: {fileID: 9111116898352321602}
   normalNotePrefab: {fileID: 6428368005516465391, guid: 25db3765c31da864bbfa68df3eb3b773, type: 3}
   longNotePrefab: {fileID: 4071395456375374401, guid: 9c30a2edd4fa8044b84ab4ec1e70f3fe, type: 3}
+  perfectHitEffectPrefab: {fileID: 1534008284485192573, guid: 88c443cda88727d42a1279da97df1373, type: 3}
+  goodHitEffectPrefab: {fileID: 889301332456336054, guid: b3357756b4d56394c941c2d4d0709e19, type: 3}
+  longPerfectHitEffectPrefab: {fileID: 6142350005723939048, guid: 367cfdde00f72104d9a075057c2b3fe2, type: 3}
+  longGoodHitEffectPrefab: {fileID: 2886026929376472687, guid: 74d7d71b521644e4eb1d07bd93812c0c, type: 3}
+  hitBall: {fileID: 953533042}
   normalNotePrefabs:
   - {fileID: 6428368005516465391, guid: 25db3765c31da864bbfa68df3eb3b773, type: 3}
   - {fileID: 6428368005516465391, guid: bf87badaf4154de4dadc52c840667e29, type: 3}
@@ -1301,6 +1306,9 @@ MonoBehaviour:
   wallHitPoint: {fileID: 1734400002}
   wallPrefab: {fileID: 3517261231785171062, guid: 66bd427db9184e44b5efcb57f108df32, type: 3}
   ballCamera: {fileID: 0}
+  wallShowDelay: 0.2
+  wallFadeSeconds: 0.2
+  fragmentFadeSeconds: 0.3
 --- !u!1 &887921236
 GameObject:
   m_ObjectHideFlags: 0
