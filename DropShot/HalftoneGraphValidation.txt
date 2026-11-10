@@ -1,0 +1,5 @@
+Body: DropShot/SG_HalftoneToon
+Outline: DropShot/SG_HalftoneOutline
+Normal: golfBall (UnityEngine.Texture2D)
+DropShot/SG_HalftoneToon errors=False supported=True
+DropShot/SG_HalftoneOutline errors=False supported=True

@@ -1,0 +1,4 @@
+Shader: Shader Graphs/SG_HalfTone
+Errors: False
+Normal: golfBall (UnityEngine.Texture2D)
+Outline: DropShot/SG_HalftoneOutline

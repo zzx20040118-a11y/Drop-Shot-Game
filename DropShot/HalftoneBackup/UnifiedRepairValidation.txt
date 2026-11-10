@@ -1,0 +1,12 @@
+Shader errors: False
+Materials:
+Mesh span for M_Golf: 4.200001; density=0.6666666
+Assets/Material/M_Golf.mat
+Mesh span for BisSG: 11.94195; density=0.2344676
+Assets/Models/Biscuit/BisSG.mat
+Mesh span for Mint Candy: 1.953417; density=1.433385
+Assets/Models/MintCandy/Mint Candy.mat
+Mesh span for ball candy: 1.999999; density=1.4
+Assets/Models/RoundCandy/ball candy.mat
+Mesh span for M_HalfTone: 4.200001; density=0.6666666
+Assets/Shader/HalfTone/M_HalfTone.mat

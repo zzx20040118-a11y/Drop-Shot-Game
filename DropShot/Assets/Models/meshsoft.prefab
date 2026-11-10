@@ -67,7 +67,7 @@ PrefabInstance:
     - target: {fileID: -6442298374534657108, guid: fedc0ccf023347d4f9ee36f8163ebad6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 798b5b0147349fa49bdc8a02b88795d0, type: 2}
+      objectReference: {fileID: 2100000, guid: ca2162830cd87a14ea7d8f0fd33b4e50, type: 2}
     - target: {fileID: 919132149155446097, guid: fedc0ccf023347d4f9ee36f8163ebad6, type: 3}
       propertyPath: m_Name
       value: meshsoft
@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 7839599499813334165, guid: fedc0ccf023347d4f9ee36f8163ebad6, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4164511204261677510, guid: d6e97d441e3511443af098d471493c32, type: 3}
+      objectReference: {fileID: -4545423930167495100, guid: fedc0ccf023347d4f9ee36f8163ebad6, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -116,7 +116,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4164511204261677510, guid: d6e97d441e3511443af098d471493c32, type: 3}
+  m_Mesh: {fileID: -4545423930167495100, guid: fedc0ccf023347d4f9ee36f8163ebad6, type: 3}
 --- !u!114 &5417813383812664519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,5 +183,5 @@ MonoBehaviour:
   autoDestroy: 1
   destroyAfterSeconds: 10
   useExplosionForce: 1
-  explosionForce: 2
-  fractureController: {fileID: 0}
+  explosionForce: 4
+  fractureController: {fileID: 5417813383812664519}

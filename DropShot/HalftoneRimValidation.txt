@@ -1,0 +1,4 @@
+Shader: Shader Graphs/SG_HalfTone
+Errors: False
+Width: 0.35
+External shell active: False

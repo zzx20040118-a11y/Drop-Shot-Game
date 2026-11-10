@@ -1,0 +1,4 @@
+Ball material: M_ToonBall
+Normal map: golfBall (UnityEngine.Texture2D)
+DropShot/Halftone Toon supported=True errors=False
+DropShot/Halftone Outline supported=True errors=False

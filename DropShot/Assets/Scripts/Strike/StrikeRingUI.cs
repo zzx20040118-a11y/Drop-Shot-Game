@@ -136,6 +136,11 @@ public class StrikeRingUI : MonoBehaviour
                 $"Scale={ringTransform.localScale}"
             );
         }
+
+        if (isCharging && holdSpaceText != null)
+        {
+            holdSpaceText.gameObject.SetActive(false);
+        }
     }
 
     private void StartCharging()
@@ -226,6 +231,11 @@ public class StrikeRingUI : MonoBehaviour
         {
             holdSpaceText.gameObject.SetActive(true);
         }
+       
+       if (holdSpaceText is null)
+        {
+            holdSpaceText.gameObject.SetActive(false);
+        }
     }
 
     private void HideRing(int noteIndex)
@@ -254,7 +264,7 @@ public class StrikeRingUI : MonoBehaviour
 
         if (holdSpaceText != null)
         {
-            holdSpaceText.gameObject.SetActive(true);
+            holdSpaceText.gameObject.SetActive(false);
         }
     }
 }
