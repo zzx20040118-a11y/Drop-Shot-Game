@@ -313,6 +313,9 @@ MonoBehaviour:
   strikeShakeStrength: 5
   strikeShakeDuration: 0.2
   strikeShakeFrequency: 22
+  enableJudgementShake: 1
+  judgementShakeDuration: 0.15
+  judgementShakeFrequency: 35
 --- !u!1 &203714678
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,6 +652,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BallMeshRotation
   rotationAxis: {x: 0, y: 0, z: 1}
   rotationSpeed: 720
+--- !u!1 &343130077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 343130079}
+  - component: {fileID: 343130078}
+  m_Layer: 0
+  m_Name: HitStopManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &343130078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343130077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5588dad6285128b43b0b59e6d990ea8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitStop
+--- !u!4 &343130079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343130077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.10121, y: 0, z: -2.27378}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &437695335 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 710000001, guid: 28fc83f46d572b2428726ee9d075ed8b, type: 3}
@@ -702,7 +749,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoadSpawner
   roadPrefab: {fileID: 1080788950199707987, guid: 28fc83f46d572b2428726ee9d075ed8b, type: 3}
-  interval: 22.44136
+  roadPrefabB: {fileID: 0}
+  initialSegmentCount: 4
 --- !u!4 &496890217
 Transform:
   m_ObjectHideFlags: 0
@@ -1725,6 +1773,7 @@ MonoBehaviour:
   wallHitPoint: {fileID: 1734400002}
   wallPrefab: {fileID: 3517261231785171062, guid: 66bd427db9184e44b5efcb57f108df32, type: 3}
   ballCamera: {fileID: 0}
+  stageSwitcher: {fileID: 0}
   wallShowDelay: 0.2
   wallFadeSeconds: 0.2
   fragmentFadeSeconds: 0.3
@@ -1840,6 +1889,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887921236}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &888700001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 888700002}
+  - component: {fileID: 888700003}
+  m_Layer: 0
+  m_Name: ScoreReporter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &888700002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888700001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &888700003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888700001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 719144c1be11e46a2bd2734ee2a178d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropShot.UI.ScoreReporter
+  judge: {fileID: 9111116898352321602}
 --- !u!1 &891715561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,6 +2861,56 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.95325, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1264773516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1264773518}
+  - component: {fileID: 1264773517}
+  m_Layer: 0
+  m_Name: JudgementHitStop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1264773517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264773516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb1e64e4dae4a14a8f7600febd035e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JudgementHitStop
+  perfectHitStop: 0.1
+  goodHitStop: 0.05
+  perfectShakeStrength: 0.5
+  goodShakeStrength: 0.35
+  judgement: {fileID: 9111116898352321602}
+  ballCameraFollow: {fileID: 50635351}
+--- !u!4 &1264773518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264773516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.10121, y: 0, z: -2.27378}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5224,46 +5368,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StrikeBulletTimeController
   judgement: {fileID: 9111116898352321602}
   slowMotionScale: 0.2
---- !u!1 &888700001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 888700002}
-  - component: {fileID: 888700003}
-  m_Layer: 0
-  m_Name: ScoreReporter
-  m_TagString: Untagged
-  m_IsActive: 1
---- !u!4 &888700002
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888700001}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
---- !u!114 &888700003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888700001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 719144c1be11e46a2bd2734ee2a178d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropShot.UI.ScoreReporter
-  judge: {fileID: 9111116898352321602}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5283,3 +5387,5 @@ SceneRoots:
   - {fileID: 203714681}
   - {fileID: 984575972}
   - {fileID: 888700002}
+  - {fileID: 343130079}
+  - {fileID: 1264773518}

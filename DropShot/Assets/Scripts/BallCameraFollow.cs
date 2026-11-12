@@ -23,9 +23,19 @@ public class BallCameraFollow : MonoBehaviour
     [Min(0f)] public float strikeShakeDuration = 0.16f;
     [Min(1f)] public float strikeShakeFrequency = 25f;
 
+    [Header("判定震屏")]
+    public bool enableJudgementShake = true;
+    [Min(0f)] public float judgementShakeDuration = 0.15f;
+    [Min(1f)] public float judgementShakeFrequency = 35f;
+
     private float shakeRemaining;
     private float shakeElapsed;
     private Vector3 shakeOffset;
+
+    private float judgementShakeRemaining;
+    private float judgementShakeElapsed;
+    private float judgementShakeStrength;
+    private Vector3 judgementShakeOffset;
 
     private Vector3 normalOffset;
     private Vector3 currentOffset;
@@ -39,17 +49,46 @@ public class BallCameraFollow : MonoBehaviour
     void OnDisable()
     {
         transform.position -= shakeOffset;
+        transform.position -= judgementShakeOffset;
+
         shakeOffset = Vector3.zero;
+        judgementShakeOffset = Vector3.zero;
+
         shakeRemaining = 0f;
+        judgementShakeRemaining = 0f;
     }
+
+    // ================= Strike 震屏 =================
 
     [ContextMenu("Preview Strike Shake (Play Mode)")]
     public void ShakeStrike()
     {
-        if (!Application.isPlaying || !enableStrikeShake) return;
+        if (!Application.isPlaying || !enableStrikeShake)
+            return;
+
         shakeRemaining = strikeShakeDuration;
         shakeElapsed = 0f;
     }
+
+    // ================= 判定震屏 =================
+
+    public void ShakeJudgement(float strength)
+    {
+        if (!Application.isPlaying || !enableJudgementShake)
+            return;
+
+        judgementShakeStrength = strength;
+        judgementShakeRemaining = judgementShakeDuration;
+        judgementShakeElapsed = 0f;
+    }
+
+    [ContextMenu("Preview Judgement Shake (Play Mode)")]
+    public void PreviewJudgementShake()
+    {
+        ShakeJudgement(0.2f);
+    }
+
+    // ================= 摄像机跟随 =================
 
     void Start()
     {
@@ -66,14 +105,17 @@ public class BallCameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        // Remove last frame's shake before calculating follow movement.
-        // This keeps shake from accumulating or changing the recovery target.
+        // 移除上一帧震屏偏移，防止位置累积
         transform.position -= shakeOffset;
+        transform.position -= judgementShakeOffset;
+
         shakeOffset = Vector3.zero;
+        judgementShakeOffset = Vector3.zero;
 
         if (target == null)
             return;
 
+        // 击球追踪
         if (isChasing)
         {
             Vector3 chaseOffset =
@@ -86,6 +128,7 @@ public class BallCameraFollow : MonoBehaviour
             );
         }
 
+        // 摄像机恢复
         if (isRecovering)
         {
             currentOffset = Vector3.Lerp(
@@ -131,18 +174,63 @@ public class BallCameraFollow : MonoBehaviour
             IsRecoveryComplete = true;
         }
 
-        if (enableStrikeShake && shakeRemaining > 0f && strikeShakeDuration > 0f)
+        // Strike 震屏
+        if (enableStrikeShake
+            && shakeRemaining > 0f
+            && strikeShakeDuration > 0f)
         {
             shakeElapsed += Time.unscaledDeltaTime;
-            shakeRemaining = Mathf.Max(0f, shakeRemaining - Time.unscaledDeltaTime);
-            float strength = strikeShakeStrength * Mathf.Clamp01(shakeRemaining / strikeShakeDuration);
+            shakeRemaining = Mathf.Max(
+                0f,
+                shakeRemaining - Time.unscaledDeltaTime
+            );
+
+            float strength = strikeShakeStrength *
+                Mathf.Clamp01(shakeRemaining / strikeShakeDuration);
+
             float phase = shakeElapsed * strikeShakeFrequency;
+
             float horizontal = Mathf.PerlinNoise(phase, 17f) * 2f - 1f;
             float vertical = Mathf.PerlinNoise(43f, phase) * 2f - 1f;
 
-            // Small screen-plane movement only: no camera rotation or zoom.
-            shakeOffset = (transform.right * horizontal + transform.up * vertical) * strength;
+            shakeOffset =
+                (transform.right * horizontal +
+                 transform.up * vertical) * strength;
+
             transform.position += shakeOffset;
+        }
+
+        // 判定震屏：独立于 Strike
+        if (enableJudgementShake
+            && judgementShakeRemaining > 0f
+            && judgementShakeDuration > 0f)
+        {
+            judgementShakeElapsed += Time.unscaledDeltaTime;
+
+            judgementShakeRemaining = Mathf.Max(
+                0f,
+                judgementShakeRemaining - Time.unscaledDeltaTime
+            );
+
+            float decay = Mathf.Clamp01(
+                judgementShakeRemaining / judgementShakeDuration
+            );
+
+            float phase =
+                judgementShakeElapsed * judgementShakeFrequency;
+
+            float horizontal =
+                Mathf.PerlinNoise(phase, 51f) * 2f - 1f;
+
+            float vertical =
+                Mathf.PerlinNoise(73f, phase) * 2f - 1f;
+
+            judgementShakeOffset =
+                (transform.right * horizontal +
+                 transform.up * vertical)
+                * judgementShakeStrength * decay;
+
+            transform.position += judgementShakeOffset;
         }
     }
 
@@ -160,7 +248,6 @@ public class BallCameraFollow : MonoBehaviour
         IsRecoveryComplete = false;
     }
 
-    // 切换摄像机跟随目标
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
