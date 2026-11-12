@@ -105,10 +105,12 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EnableReaction: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Glow: 0
     - _HighlightDotSize: 0.65
     - _HighlightEnd: 1
     - _HighlightStart: 0.7
@@ -118,6 +120,7 @@ Material:
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReactionStrength: 0.35
     - _ReceiveShadows: 1
     - _RimWidth: 0.5
     - _Rotation: 0
@@ -139,7 +142,9 @@ Material:
     - _BaseColor: {r: 0.7254902, g: 0.50980395, b: 0.4039216, a: 1}
     - _Color: {r: 0.7254902, g: 0.5098039, b: 0.40392157, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _GlowColor: {r: 0.7735849, g: 0.49991098, b: 0.49991098, a: 1}
     - _HighlightColor: {r: 0.8584906, g: 0.6791824, b: 0.47378963, a: 1}
+    - _ReactionColor: {r: 1, g: 0.65, b: 0.34999996, a: 1}
     - _RimColor: {r: 0.3019608, g: 0.15686275, b: 0.0627451, a: 1}
     - _ShadowColor: {r: 0.3529412, g: 0.105882354, b: 0.105882354, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

@@ -14,6 +14,11 @@ public class StrikeWallSpawner : MonoBehaviour
     public BallCameraFollow ballCamera;
     public StageSwitcher stageSwitcher;
 
+    [Header("Wall Hit Audio")]
+    public AudioClip wallHitClip;
+    [Range(0f, 1f)] public float wallHitVolume = 1f;
+    public AudioSource wallHitSource;
+
     [Header("Wall Appearance")]
     [Min(0f)] public float wallShowDelay = 0.2f;
 
@@ -108,6 +113,16 @@ public class StrikeWallSpawner : MonoBehaviour
                 FractureController fracture = wall.model.GetComponent<FractureController>();
                 fracture.fragmentFadeSeconds = fragmentFadeSeconds;
                 fracture.Fracture();
+                if (wallHitClip != null)
+                {
+                    if (wallHitSource == null)
+                    {
+                        wallHitSource = gameObject.AddComponent<AudioSource>();
+                        wallHitSource.playOnAwake = false;
+                        wallHitSource.spatialBlend = 0f;
+                    }
+                    wallHitSource.PlayOneShot(wallHitClip, wallHitVolume);
+                }
                 if (ballCamera != null)
                     ballCamera.ShakeStrike();
                 wall.finished = true;

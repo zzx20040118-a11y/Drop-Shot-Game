@@ -15,6 +15,11 @@ namespace DropShot.Judgement
         public AudioClip perfectClip;
         public AudioClip goodClip;
         public AudioClip missClip;
+        [Header("Strike Audio")]
+        [Tooltip("Uses the regular Perfect clip when empty.")]
+        public AudioClip strikePerfectClip;
+        [Tooltip("Uses the regular Good clip when empty.")]
+        public AudioClip strikeGoodClip;
         [Tooltip("Perfect 时叠加的碎裂声，可留空")]
         public AudioClip perfectLayerClip;
         [Tooltip("按住空格蓄力时循环播放")]
@@ -61,15 +66,23 @@ namespace DropShot.Judgement
 
         void OnJudged(JudgeEvent e)
         {
-            PlaySfx(e.result);
+            PlaySfx(e);
             ShowText(e);
             SpawnFx(e);
         }
 
-        void PlaySfx(JudgeResult r)
+        void PlaySfx(JudgeEvent e)
         {
             if (sfxSource == null) return;
+            JudgeResult r = e.result;
             AudioClip clip = r == JudgeResult.Perfect ? perfectClip : r == JudgeResult.Good ? goodClip : missClip;
+            if (e.kind == NoteKind.Strike)
+            {
+                if (r == JudgeResult.Perfect && strikePerfectClip != null)
+                    clip = strikePerfectClip;
+                else if (r == JudgeResult.Good && strikeGoodClip != null)
+                    clip = strikeGoodClip;
+            }
             if (clip != null) sfxSource.PlayOneShot(clip, sfxVolume);
             if (r == JudgeResult.Perfect && perfectLayerClip != null) sfxSource.PlayOneShot(perfectLayerClip, sfxVolume * 0.6f);
         }
