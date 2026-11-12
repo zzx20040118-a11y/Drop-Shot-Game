@@ -12,6 +12,7 @@ public class StrikeWallSpawner : MonoBehaviour
     public Transform wallHitPoint;
     public GameObject wallPrefab;
     public BallCameraFollow ballCamera;
+    public StageSwitcher stageSwitcher;
 
     [Header("Wall Appearance")]
     [Min(0f)] public float wallShowDelay = 0.2f;
@@ -110,6 +111,8 @@ public class StrikeWallSpawner : MonoBehaviour
                 if (ballCamera != null)
                     ballCamera.ShakeStrike();
                 wall.finished = true;
+                if (stageSwitcher != null)
+                    stageSwitcher.NextStage();
                 Destroy(wall.model, fracture.destroyAfterSeconds);
             }
             else if (remaining <= 0f && !wall.fading)

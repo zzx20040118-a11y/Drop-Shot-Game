@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/DropShotUI/Scenes/Title.unity
+    path: Assets/Scenes/Title.unity
     guid: cfd3596a3660548e18e0eafa09e6937f
   - enabled: 1
     path: Assets/Scenes/HalftoneEffect.unity
