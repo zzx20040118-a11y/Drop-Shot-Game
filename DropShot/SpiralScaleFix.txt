@@ -1,0 +1,1 @@
+Restored new mesh coordinates to original scale (100x); prefab transforms and connection points preserved.

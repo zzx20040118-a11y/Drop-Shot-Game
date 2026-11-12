@@ -1,0 +1,18 @@
+{
+  "format": "drop-shot-synth-recipe-v1",
+  "name": "Bullet Time Low Charge",
+  "duration_seconds": 0.5,
+  "sample_rate": 48000,
+  "pitch_start_hz": 110,
+  "pitch_end_hz": 165,
+  "pulse_start_hz": 3,
+  "pulse_end_hz": 5,
+  "pulse_amplitude_floor": 0.55,
+  "vibrato_start_semitones": 0.20,
+  "vibrato_end_semitones": 0.40,
+  "filter_start_hz": 650,
+  "filter_end_hz": 1400,
+  "peak_dbfs": -2.0,
+  "seed": 82,
+  "output_filename": "pop_charge_bullet_time_0.5s.wav"
+}

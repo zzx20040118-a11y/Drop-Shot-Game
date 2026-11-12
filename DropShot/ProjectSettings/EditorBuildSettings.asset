@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TitleScene.unity
-    guid: a850d4cbc062ada4f85eee197dd21392
+    path: Assets/DropShotUI/Scenes/Title.unity
+    guid: cfd3596a3660548e18e0eafa09e6937f
   - enabled: 1
-    path: Assets/Scenes/EnvReaction.unity
-    guid: 2878002d1c3f7dc4ba390fa2d889347a
+    path: Assets/Scenes/HalftoneEffect.unity
+    guid: 879c3771c0ef94e409ea4db6f7c6a88b
   - enabled: 1
     path: Assets/Scenes/End.unity
     guid: 7c0afea8dba64ef4b9ed3dc57f625a40

@@ -1,0 +1,1 @@
+Applied relative export reflection on X to B mesh, including normals, tangents and triangle winding. UVs, scale and prefab connections preserved.

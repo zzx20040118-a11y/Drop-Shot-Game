@@ -3,44 +3,72 @@ using UnityEngine;
 public class RoadSpawner : MonoBehaviour
 {
     public GameObject roadPrefab;
-    public float interval = 22.44136f;
+    public GameObject roadPrefabB;
+    public int initialSegmentCount = 4;
 
-    private float timer;
     private GameObject lastRoad;
+    private float replenishPositionX;
+    private bool spawnA = true;
 
     void Start()
     {
-        for (int i = 0; i < 4; i++)
+        if (initialSegmentCount < 1)
+        {
+            initialSegmentCount = 1;
+        }
+
+        for (int i = 0; i < initialSegmentCount; i++)
         {
             Spawn();
+            if (!enabled) return;
         }
+
+        float distance = lastRoad.transform.position.x -
+            lastRoad.transform.Find("NextSpawnPoint").position.x;
+
+        replenishPositionX = lastRoad.transform.position.x + distance;
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-
-        while (timer >= interval)
+        if (lastRoad == null)
         {
-            timer -= interval;
+            return;
+        }
+
+        if (lastRoad.transform.position.x >= replenishPositionX)
+        {
             Spawn();
         }
     }
 
     void Spawn()
     {
+        GameObject prefab;
+
+        if (spawnA)
+        {
+            prefab = roadPrefab;
+        }
+        else
+        {
+            prefab = roadPrefabB;
+        }
+
         Vector3 position = transform.position;
 
         if (lastRoad != null)
         {
-            Bounds bounds = lastRoad.GetComponent<Renderer>().bounds;
-
-            position = lastRoad.transform.position;
-            position.x -= bounds.size.x;
+            position = lastRoad.transform.Find("NextSpawnPoint").position;
+            if (position.x >= lastRoad.transform.position.x - 0.01f)
+            {
+                Debug.LogError("NextSpawnPoint must be behind the road on world X.", lastRoad);
+                enabled = false;
+                return;
+            }
         }
 
-        lastRoad = Instantiate(roadPrefab, position, roadPrefab.transform.rotation);
-
-        Debug.Log($"生成管道：時間 {Time.time:F1} 秒，位置 {lastRoad.transform.position}");
+        lastRoad = Instantiate(prefab, position, prefab.transform.rotation);
+        spawnA = !spawnA;
     }
 }

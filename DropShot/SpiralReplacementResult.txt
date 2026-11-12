@@ -1,0 +1,1 @@
+Replaced RoadA with spiral.fbx and RoadB with spiral2.fbx. Preserved root transforms and NextSpawnPoint.

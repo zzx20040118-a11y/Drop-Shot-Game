@@ -1,0 +1,1 @@
+Updated RoadA mesh from new spiral.fbx without changing transforms or connection points.

@@ -1,0 +1,1 @@
+Updated B from positive-scale export; removed baked placement translation only. No mirror, rotation or scale applied. UVs and materials preserved.

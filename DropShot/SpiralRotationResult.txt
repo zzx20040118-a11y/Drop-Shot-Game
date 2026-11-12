@@ -1,0 +1,1 @@
+Rotated A and B mesh vertices, normals and tangents 180 degrees around local Z. Prefab transforms, scale and connection points preserved.

@@ -1,0 +1,17 @@
+{
+  "format": "drop-shot-synth-recipe-v1",
+  "name": "Pop Charge Pulse",
+  "duration_seconds": 0.5,
+  "sample_rate": 48000,
+  "pitch_start_hz": 300,
+  "pitch_end_hz": 760,
+  "pulse_start_hz": 5,
+  "pulse_end_hz": 23,
+  "pulse_amplitude_floor": 0.32,
+  "vibrato_start_semitones": 0.30,
+  "vibrato_end_semitones": 1.10,
+  "filter_start_hz": 1000,
+  "filter_end_hz": 6500,
+  "peak_dbfs": -2.0,
+  "seed": 82
+}

@@ -1,0 +1,15 @@
+{
+  "format": "drop-shot-synth-recipe-v1",
+  "name": "Pop Charge",
+  "duration_seconds": 0.5,
+  "sample_rate": 48000,
+  "seed": 82,
+  "description": "Bright bubbly 8-bit charge, rising stepped notes with a soft body and short tail",
+  "note_frequencies_hz": [261.6256, 329.6276, 391.9954, 523.2511, 659.2551, 783.9909, 1046.5023, 1318.5102],
+  "note_boundaries_seconds": [0, 0.09, 0.17, 0.24, 0.30, 0.35, 0.395, 0.435, 0.5],
+  "pulse_width": 0.25,
+  "pulse_gain": 0.28,
+  "triangle_gain": 0.50,
+  "bubble_gain": 0.16,
+  "peak_dbfs": -2.0
+}

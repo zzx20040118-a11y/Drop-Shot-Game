@@ -1,0 +1,1 @@
+Updated RoadB to re-exported spiral2 mesh; transforms and shared materials preserved.
