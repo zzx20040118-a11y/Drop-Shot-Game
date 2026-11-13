@@ -11,6 +11,12 @@ public class GameplayCountdown : MonoBehaviour
     [Header("判定系统")]
     public JudgementSystem judgementSystem;
 
+    [Header("场景移动")]
+    public StagePositionMove stagePositionMove;
+
+    [Header("球体特效")]
+    public GameObject ballEffectController;
+
     [Header("倒计时音效")]
     public AudioSource countdownAudio;
     public AudioClip tickClip;
@@ -33,14 +39,27 @@ public class GameplayCountdown : MonoBehaviour
         if (judgementSystem == null)
             judgementSystem = FindObjectOfType<JudgementSystem>();
 
+        if (stagePositionMove == null)
+            stagePositionMove = FindObjectOfType<StagePositionMove>();
+
         if (judgementSystem == null || countdownText == null)
         {
             Debug.LogError("[Countdown] 缺少 JudgementSystem 或 CountdownText！");
             return;
         }
 
+        // 倒计时期间停止判定
         judgementSystem.Stop();
 
+        // 倒计时期间停止场景移动
+        if (stagePositionMove != null)
+            stagePositionMove.StopMoving();
+
+        // 倒计时期间关闭球体特效
+        if (ballEffectController != null)
+            ballEffectController.SetActive(false);
+
+        // 初始化倒计时 UI
         countdownText.gameObject.SetActive(true);
         countdownText.transform.localScale = Vector3.one;
 
@@ -126,8 +145,17 @@ public class GameplayCountdown : MonoBehaviour
         if (started) return;
         started = true;
 
+        // 开始判定
         if (judgementSystem != null)
             judgementSystem.Begin();
+
+        // 开始场景移动
+        if (stagePositionMove != null)
+            stagePositionMove.StartMoving();
+
+        // 开启球体特效
+        if (ballEffectController != null)
+            ballEffectController.SetActive(true);
 
         Debug.Log("[Countdown] 游戏正式开始！");
     }

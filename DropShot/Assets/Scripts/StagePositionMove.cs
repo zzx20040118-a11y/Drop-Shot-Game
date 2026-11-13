@@ -2,14 +2,27 @@ using UnityEngine;
 
 public class StagePositionMove : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   
-      public Vector3 moveSpeed = new Vector3(-0.2f, 0f, 0f); 
-    
+    [Header("移动速度")]
+    public Vector3 moveSpeed = new Vector3(-0.2f, 0f, 0f);
 
-    // Update is called once per frame
+    [Header("移动状态")]
+    public bool canMove = false;
+
     void Update()
     {
-       transform.localPosition += moveSpeed * Time.deltaTime; 
+        if (!canMove)
+            return;
+
+        transform.localPosition += moveSpeed * Time.deltaTime;
+    }
+
+    public void StartMoving()
+    {
+        canMove = true;
+    }
+
+    public void StopMoving()
+    {
+        canMove = false;
     }
 }
