@@ -239,10 +239,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd99cf711b6f49c4bab7184948b63032, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShortNoteVFX
   candy: {fileID: 52146047376346423}
-  burstPrefab: {fileID: 21200000, guid: 7b278f6c2352468099368cc7efc46709, type: 3}
+  burstPrefab: {fileID: 21200000, guid: 3aa5c7fd996e474cb00eefbfd775cb79, type: 3}
   animatorSlot: {fileID: 0}
-  previewTime: 0.6
-  shakeAmount: 0.015
+  enableOutlineGlow: 0
+  ringWidth: 0.1
+  burstScale: 2
+  burstEndScale: 0.1
+  previewTime: 1.5
+  outlineBrightness: 2.57
+  shakePreviewTime: 0.5
+  shakeAmount: 0
+  shakeTarget: 1

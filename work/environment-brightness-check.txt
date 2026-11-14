@@ -1,0 +1,1 @@
+PASS: Controls saved in Hard and Easy; 1 restores original; 0.75 applies dim 0.25; disabling resets global state; shader has no compile errors; rendered mean brightness 0.6263887 -> 0.5807379.

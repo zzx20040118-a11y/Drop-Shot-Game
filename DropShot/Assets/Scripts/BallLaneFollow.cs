@@ -21,7 +21,7 @@ public class BallLaneFollow : MonoBehaviour
 
     private Quaternion targetRotation;
 
-    void Start()
+    protected virtual void Start()
     {
         ballCamera = FindObjectOfType<BallCameraFollow>();
 
@@ -38,19 +38,9 @@ public class BallLaneFollow : MonoBehaviour
         targetRotation = ballRotationTarget.rotation;
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if (KeyInput.Down(KeyCode.D))
-        {
-            currentLane = 0;
-            UpdateBallRotation();
-        }
-
-        if (KeyInput.Down(KeyCode.F))
-        {
-            currentLane = 1;
-            UpdateBallRotation();
-        }
+        ReadLaneInput();
 
         // 平滑旋转球体（世界坐标）
         ballRotationTarget.rotation = Quaternion.Slerp(
@@ -58,6 +48,18 @@ public class BallLaneFollow : MonoBehaviour
             targetRotation,
             rotationSpeed * Time.deltaTime
         );
+    }
+
+    protected virtual void ReadLaneInput()
+    {
+        if (KeyInput.Down(KeyCode.D)) SelectLane(0);
+        if (KeyInput.Down(KeyCode.F)) SelectLane(1);
+    }
+
+    protected void SelectLane(int lane)
+    {
+        currentLane = lane;
+        UpdateBallRotation();
     }
 
     void UpdateBallRotation()

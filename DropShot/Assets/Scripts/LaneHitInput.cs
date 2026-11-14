@@ -10,23 +10,23 @@ public class LaneHitInput : MonoBehaviour
     private int heldLane;
     private bool spaceHeld;
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         judge.Judged += OnJudged;
     }
 
-    void OnDisable()
+    protected virtual void OnDisable()
     {
         judge.Judged -= OnJudged;
     }
 
     // Run after D/F has updated the selected lane.
-    void LateUpdate()
+    protected virtual void LateUpdate()
     {
-        if (!judge.Running || judge.Core == null || Keyboard.current == null)
+        if (!judge.Running || judge.Core == null)
             return;
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (HitPressed())
         {
             double time = judge.SongTime;
             spaceHeld = true;
@@ -41,14 +41,24 @@ public class LaneHitInput : MonoBehaviour
             }
         }
 
-        if (spaceHeld && Keyboard.current.spaceKey.wasReleasedThisFrame)
+        if (spaceHeld && HitReleased())
         {
             judge.Core.Release(heldLane, judge.SongTime);
             spaceHeld = false;
         }
     }
 
-    void OnGUI()
+    protected virtual bool HitPressed()
+    {
+        return Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame;
+    }
+
+    protected virtual bool HitReleased()
+    {
+        return Keyboard.current != null && Keyboard.current.spaceKey.wasReleasedThisFrame;
+    }
+
+    protected virtual void OnGUI()
     {
         if (judge.Chart == null) return;
         string hint = "Chart complete";

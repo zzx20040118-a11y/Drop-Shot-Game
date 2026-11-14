@@ -16,7 +16,7 @@ public class BallLaneControl : MonoBehaviour
     private float laneChangeTimer;
     private bool isChangingLane;
 
-    void Start()
+    protected virtual void Start()
     {
         if (laneFollow == null)
         {
@@ -43,7 +43,7 @@ public class BallLaneControl : MonoBehaviour
         }
     }
 
-    void Update()
+    protected virtual void Update()
     {
 
         if (laneFollow == null || !laneFollow.enabled)
@@ -51,20 +51,8 @@ public class BallLaneControl : MonoBehaviour
             return;
         }
 
-        if (Keyboard.current == null || laneFollow == null)
-        {
+        if (!ReadLaneInput())
             return;
-        }
-
-        if (Keyboard.current.dKey.wasPressedThisFrame)
-        {
-            ChangeLane(0);
-        }
-
-        if (Keyboard.current.fKey.wasPressedThisFrame)
-        {
-            ChangeLane(1);
-        }
 
         if (!laneFollow.enabled || !laneFollow.followLane)
             return;
@@ -110,7 +98,16 @@ public class BallLaneControl : MonoBehaviour
         }
     }
 
-    void ChangeLane(int lane)
+    protected virtual bool ReadLaneInput()
+    {
+        if (Keyboard.current == null)
+            return false;
+        if (Keyboard.current.dKey.wasPressedThisFrame) ChangeLane(0);
+        if (Keyboard.current.fKey.wasPressedThisFrame) ChangeLane(1);
+        return true;
+    }
+
+    protected void ChangeLane(int lane)
     {
         currentLane = lane;
 

@@ -1,0 +1,1 @@
+PASS: Both candy prefabs. Sprite and shader references; alpha 0 / 0.5 / 1; fixed sprite scale; no shake before window; repeatable shake in window; root/collider unchanged; shared material unchanged; Finish hides sprite and resets per-note properties; empty animation slot.

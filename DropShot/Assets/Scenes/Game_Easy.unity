@@ -1890,13 +1890,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 666114097}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58838bfd2de48d94cb783a48a5601958, type: 3}
+  m_Script: {fileID: 11500000, guid: 561b288f9e51427395d59c37dd6307cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::EasyBallLaneControl
   laneSpacing: 3
   currentLane: 0
   laneChangeDuration: 0.25
   laneFollow: {fileID: 953533047}
+  judge: {fileID: 9111116898352321602}
 --- !u!114 &666114104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2121,11 +2122,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511883417775671476}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1a7d1b00c164333b2050f3e4773180d, type: 3}
+  m_Script: {fileID: 11500000, guid: 12d14273416f45cd9af9ca52cdc342a9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LaneHitInput
+  m_EditorClassIdentifier: Assembly-CSharp::EasyLaneHitInput
   judge: {fileID: 9111116898352321602}
   ballLane: {fileID: 953533044}
   ballHit: {fileID: 953533045}
@@ -3706,13 +3707,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 953533038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58838bfd2de48d94cb783a48a5601958, type: 3}
+  m_Script: {fileID: 11500000, guid: 561b288f9e51427395d59c37dd6307cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::EasyBallLaneControl
   laneSpacing: 3
   currentLane: 0
   laneChangeDuration: 0.25
   laneFollow: {fileID: 953533047}
+  judge: {fileID: 9111116898352321602}
 --- !u!114 &953533045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3837,9 +3839,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 953533038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deb699f5d2d8da34880518b51eb9ab32, type: 3}
+  m_Script: {fileID: 11500000, guid: e744b52d1e794144a07e49467d59410c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BallLaneFollow
+  m_EditorClassIdentifier: Assembly-CSharp::EasyBallLaneFollow
   leftHitPoint: {fileID: 842053161}
   rightHitPoint: {fileID: 891715562}
   followLane: 1
@@ -3847,6 +3849,7 @@ MonoBehaviour:
   rotationSpeed: 8
   leftLaneRotation: -2
   rightLaneRotation: 2
+  judge: {fileID: 9111116898352321602}
 --- !u!1 &984575968
 GameObject:
   m_ObjectHideFlags: 0
@@ -7477,7 +7480,7 @@ MonoBehaviour:
   chartJson: {fileID: 4900000, guid: 8f5990d2a9467164d851a17b2f7521bb, type: 3}
   music: {fileID: 1423137090429943375}
   playOnStart: 0
-  readKeyboard: 1
+  readKeyboard: 0
   audioOffsetMs: 0
   lane0Key: 100
   lane1Key: 102
@@ -7506,6 +7509,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StrikeBulletTimeController
   judgement: {fileID: 9111116898352321602}
   slowMotionScale: 0.2
+--- !u!1 &213850632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213850634}
+  - component: {fileID: 213850633}
+  m_Layer: 0
+  m_Name: EnvironmentBrightness
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &213850633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213850632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 129d06ef7a8f40fc9aa47b599a09a173, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::HalftoneEnvironmentBrightness
+  brightness: 0.9
+--- !u!4 &213850634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213850632}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -7536,3 +7584,4 @@ SceneRoots:
   - {fileID: 204787144}
   - {fileID: 343130079}
   - {fileID: 1264773518}
+  - {fileID: 213850634}
