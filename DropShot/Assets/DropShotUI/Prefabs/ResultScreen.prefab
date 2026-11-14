@@ -3579,7 +3579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropShot.UI.ResultScreen
   titleSceneName: Title
-  gameSceneName: HalftoneEffect
+  gameSceneName: Game_Hard
   fader: {fileID: 7960002820416933792}
   header: {fileID: 6292326338910230224}
   panel: {fileID: 7109188277846570276}

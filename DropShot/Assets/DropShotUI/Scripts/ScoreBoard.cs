@@ -7,6 +7,14 @@ namespace DropShot.UI
     public static class ScoreBoard
     {
         public static bool HasResult;
+        public static string GameSceneName;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetSession()
+        {
+            GameSceneName = null;
+            HasResult = false;
+        }
         public static int Score, Perfect, Good, Miss, MaxCombo, NoteCount;
 
         // 准确率：Perfect 记 1，Good 记 0.5
@@ -19,16 +27,14 @@ namespace DropShot.UI
             }
         }
 
-        public static string Rank
+        public static string Rank => RankForScore(Score);
+
+        public static string RankForScore(int score)
         {
-            get
-            {
-                float a = Accuracy;
-                if (a >= 0.95f) return "S";
-                if (a >= 0.85f) return "A";
-                if (a >= 0.70f) return "B";
-                return "C";
-            }
+            if (score >= 16000) return "S";
+            if (score >= 13000) return "A";
+            if (score >= 8000) return "B";
+            return "C";
         }
 
         public static void Record(JudgeCore core)

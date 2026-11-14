@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2588895645544539828}
   - component: {fileID: -8094360745441012712}
   - component: {fileID: 4282864425106569382}
+  - component: {fileID: 114800001}
   m_Layer: 0
   m_Name: Crash_Collider_NormalNote 2
   m_TagString: Untagged
@@ -228,3 +229,20 @@ MonoBehaviour:
   beatSquash: 0.06
   holdingBreathSpeed: 0.3
   randomAxis: 1
+--- !u!114 &114800001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428368005516465391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd99cf711b6f49c4bab7184948b63032, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ShortNoteVFX
+  candy: {fileID: 52146047376346423}
+  burstPrefab: {fileID: 21200000, guid: 7b278f6c2352468099368cc7efc46709, type: 3}
+  animatorSlot: {fileID: 0}
+  previewTime: 0.6
+  shakeAmount: 0.015

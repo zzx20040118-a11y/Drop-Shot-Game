@@ -13,6 +13,7 @@ namespace DropShot.UI
         {
             if (judge == null) judge = FindAnyObjectByType<JudgementSystem>();
             ScoreBoard.HasResult = false;
+            ScoreBoard.GameSceneName = gameObject.scene.name;
         }
 
         void OnEnable() { if (judge != null) judge.Judged += OnJudged; }

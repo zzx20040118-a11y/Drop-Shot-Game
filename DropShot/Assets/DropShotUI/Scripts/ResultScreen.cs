@@ -20,7 +20,7 @@ namespace DropShot.UI
         [Header("场景")]
         public string titleSceneName = "Title";
         [Tooltip("留空则隐藏「再来一次」按钮")]
-        public string gameSceneName = "HalftoneEffect";
+        public string gameSceneName = "Game_Hard";
 
         [Header("引用")]
         public SceneFader fader;
@@ -56,6 +56,8 @@ namespace DropShot.UI
 
         void Awake()
         {
+            if (!string.IsNullOrEmpty(ScoreBoard.GameSceneName))
+                gameSceneName = ScoreBoard.GameSceneName;
             headerHome = header.anchoredPosition;
             panelHome = panel.anchoredPosition;
             header.anchoredPosition = headerHome + Vector2.up * 700f;
@@ -91,7 +93,7 @@ namespace DropShot.UI
             int combo = real ? ScoreBoard.MaxCombo : demoMaxCombo;
             int judged = perfect + good + miss;
             float acc = judged == 0 ? 0f : (perfect + 0.5f * good) / judged;
-            string rank = acc >= 0.95f ? "S" : acc >= 0.85f ? "A" : acc >= 0.70f ? "B" : "C";
+            string rank = ScoreBoard.RankForScore(score);
 
             yield return Wait(0.3f);
             yield return Tween(0.8f, t => header.anchoredPosition = Vector2.LerpUnclamped(headerHome + Vector2.up * 700f, headerHome, UITween.OutBounce(t)));

@@ -5,14 +5,15 @@ using UnityEngine.SceneManagement;
 
 namespace DropShot.UI
 {
-    // 标题页流程：淡入 → Logo 掉落弹跳 → 甜甜圈 loading（后台真加载游戏场景）→ 完成动画
-    // → 球座弹出、球掉到球座上 → START / QUIT 弹出 → 点 START：球被击飞进螺旋、螺旋放大 → 进入游戏（按标题动画草稿）
+    // 标题动画完成后选择 EASY / HARD，再异步加载对应场景并播放击球转场。
     public class TitleScreen : MonoBehaviour
     {
         [Header("场景")]
         [Tooltip("游戏关卡场景名，需要加进 Build Settings")]
-        public string gameSceneName = "HalftoneEffect";
-        [Tooltip("loading 至少显示多久（秒），真加载太快时也能看到完整动画")]
+        public string gameSceneName = "Game_Hard";
+        public string easySceneName = "Game_Easy";
+        public JellyButton easyButton;
+        [Tooltip("开场甜甜圈动画显示多久（秒）")]
         public float minLoadingSeconds = 2.4f;
 
         [Header("引用")]
@@ -42,6 +43,7 @@ namespace DropShot.UI
         AsyncOperation loadOp;
         Vector2 logoHome;
         bool logoIdle;
+        bool enteringGame;
 
         void Awake()
         {
@@ -51,6 +53,11 @@ namespace DropShot.UI
             startButton.gameObject.SetActive(false);
             if (startHint != null) startHint.alpha = 0f;
             startButton.onClick.AddListener(OnStart);
+            if (easyButton != null)
+            {
+                easyButton.gameObject.SetActive(false);
+                easyButton.onClick.AddListener(() => StartGame(easySceneName));
+            }
             if (ball != null) ball.gameObject.SetActive(false);
             if (tee != null) tee.localScale = Vector3.zero;
             if (quitButton != null)
@@ -74,29 +81,18 @@ namespace DropShot.UI
 
         IEnumerator Flow()
         {
-            bool canLoad = !string.IsNullOrEmpty(gameSceneName) && Application.CanStreamedLevelBeLoaded(gameSceneName);
-            if (canLoad)
-            {
-                loadOp = SceneManager.LoadSceneAsync(gameSceneName);
-                loadOp.allowSceneActivation = false;
-            }
-            else
-            {
-                Debug.LogWarning($"[DropShot UI] 游戏场景「{gameSceneName}」不在 Build Settings 里，loading 只做演示");
-            }
-
+            // Wait for the difficulty choice before loading either gameplay scene.
             yield return UITween.Wait(0.35f);
             yield return LogoDrop();
             StartCoroutine(UITween.Run(0.5f, t => { if (tagline != null) tagline.alpha = t; }));
 
-            // 显示进度 = min(真实进度, 最短时长进度)，再做平滑，避免一下跳满
+            // 开场进度动画；实际场景在选择难度后加载。
             float shown = 0f, elapsed = 0f;
             int lastTick = 0;
             while (shown < 0.999f)
             {
                 elapsed += Time.unscaledDeltaTime;
-                float real = loadOp != null ? Mathf.Clamp01(loadOp.progress / 0.9f) : 1f;
-                float target = Mathf.Min(real, elapsed / minLoadingSeconds);
+                float target = Mathf.Clamp01(elapsed / Mathf.Max(0.01f, minLoadingSeconds));
                 shown = Mathf.MoveTowards(shown, target, Time.unscaledDeltaTime * 1.2f);
                 loader.SetProgress(shown);
                 int tick = Mathf.FloorToInt(shown * 10f);
@@ -109,6 +105,7 @@ namespace DropShot.UI
             logoIdle = true;
             if (tee != null && ball != null) yield return BallOnTee();
             if (quitButton != null) StartCoroutine(DelayedPop(quitButton, 0.12f));
+            if (easyButton != null) StartCoroutine(easyButton.PopIn());
             yield return startButton.PopIn();
             if (startHint != null) startHint.alpha = 1f;
         }
@@ -148,12 +145,33 @@ namespace DropShot.UI
 
         void OnStart()
         {
+            StartGame(gameSceneName);
+        }
+
+        void StartGame(string sceneName)
+        {
+            if (enteringGame) return;
+            if (string.IsNullOrEmpty(sceneName) || !Application.CanStreamedLevelBeLoaded(sceneName))
+            {
+                Debug.LogError($"[DropShot UI] Cannot load scene: {sceneName}");
+                return;
+            }
+            enteringGame = true;
+            startButton.interactable = false;
+            if (easyButton != null) easyButton.interactable = false;
+            if (quitButton != null) quitButton.interactable = false;
+            ScoreBoard.GameSceneName = sceneName;
+            loadOp = SceneManager.LoadSceneAsync(sceneName);
+            loadOp.allowSceneActivation = false;
             Play(startClip);
             StartCoroutine(EnterGame());
         }
 
         void OnQuit()
         {
+            if (enteringGame) return;
+            enteringGame = true;
+            if (easyButton != null) easyButton.interactable = false;
             if (startButton != null) startButton.interactable = false;
             StartCoroutine(QuitGame());
         }

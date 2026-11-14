@@ -60,12 +60,12 @@ namespace DropShot.Judgement
         }
 
         // Awake 里读谱面，别的脚本在 Start 里就能拿到 Chart / Core
-        void Awake()
+        protected void Awake()
         {
             if (chartJson != null) Load(chartJson.text);
         }
 
-        void Start()
+        protected void Start()
         {
             if (playOnStart && Core != null) Begin();
         }
@@ -104,17 +104,12 @@ namespace DropShot.Judgement
 
         public void Stop() => Running = false;
 
-        void Update()
+        protected void Update()
         {
             if (!Running || Core == null) return;
 
             double t = SongTime;
-            if (readKeyboard)
-            {
-                HandleKey(lane0Key, 0, t);
-                HandleKey(lane1Key, 1, t);
-                HandleKey(strikeKey, JudgeCore.StrikeLane, t);
-            }
+            if (readKeyboard) ReadKeyboardInput(t);
             Core.Tick(t);
 
             if (Core.Finished)
@@ -122,6 +117,13 @@ namespace DropShot.Judgement
                 Running = false;
                 Debug.Log($"[Judgement] 结束：Perfect {Core.PerfectCount} / Good {Core.GoodCount} / Miss {Core.MissCount}，最大连击 {Core.MaxCombo}，得分 {Core.Score}");
             }
+        }
+
+        protected virtual void ReadKeyboardInput(double t)
+        {
+            HandleKey(lane0Key, 0, t);
+            HandleKey(lane1Key, 1, t);
+            HandleKey(strikeKey, JudgeCore.StrikeLane, t);
         }
 
         void HandleKey(KeyCode key, int lane, double t)

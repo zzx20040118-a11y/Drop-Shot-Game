@@ -60,6 +60,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     public float cleanupDelay = 3f;
 
     private GameObject[] noteObjects;
+    private ShortNoteVFX[] shortVfx;
     private bool[] segmentedLongNotes;
     private Vector3[] normalRotationAxes;
     private float[] normalRotationFactors;
@@ -92,6 +93,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         var notes = judge.Chart.notes;
         noteMoveTime = judge.SongTime;
         noteObjects = new GameObject[notes.Count];
+        shortVfx = new ShortNoteVFX[notes.Count];
         segmentedLongNotes = new bool[notes.Count];
         normalRotationAxes = new Vector3[notes.Count];
         normalRotationFactors = new float[notes.Count];
@@ -127,6 +129,9 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         }
 
         noteObjects[noteIndex] = Instantiate(prefab);
+        shortVfx[noteIndex] = noteObjects[noteIndex].GetComponent<ShortNoteVFX>();
+        if (shortVfx[noteIndex] != null)
+            shortVfx[noteIndex].Initialize();
         normalInitialRotations[noteIndex] = noteObjects[noteIndex].transform.rotation;
         normalBodies[noteIndex] = noteObjects[noteIndex].GetComponent<Rigidbody>();
         if (normalBodies[noteIndex] != null)
@@ -162,7 +167,11 @@ public class ColliderTestNoteSpawner : MonoBehaviour
             return;
 
         if (noteObjects[noteIndex] != null)
+        {
+            if (shortVfx[noteIndex] != null)
+                shortVfx[noteIndex].Finish();
             Destroy(noteObjects[noteIndex]);
+        }
         noteObjects[noteIndex] = null;
     }
 
@@ -212,6 +221,8 @@ public class ColliderTestNoteSpawner : MonoBehaviour
             }
 
             noteObjects[noteIndex].SetActive(true);
+            if (note.type == "Normal" && shortVfx[noteIndex] != null && shortVfx[noteIndex].enabled)
+                shortVfx[noteIndex].UpdateVisual(judge.SongTime, note.time, judge.settings.goodWindow);
         }
     }
 
@@ -484,6 +495,9 @@ public class ColliderTestNoteSpawner : MonoBehaviour
 
         if (note == null)
             return;
+
+        if (shortVfx[noteIndex] != null)
+            shortVfx[noteIndex].Finish();
 
         if (result.result != JudgeResult.Miss)
         {

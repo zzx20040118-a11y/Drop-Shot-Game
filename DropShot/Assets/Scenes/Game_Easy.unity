@@ -4294,8 +4294,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JudgementHitStop
   perfectHitStop: 0.1
   goodHitStop: 0.05
-  perfectShakeStrength: 0.5
-  goodShakeStrength: 0.35
+  perfectShakeStrength: 0.25
+  goodShakeStrength: 0.1
   judgement: {fileID: 9111116898352321602}
   ballCameraFollow: {fileID: 50635351}
 --- !u!4 &1264773518
@@ -7471,9 +7471,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 511883417775671476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ffe8caeb26d747e6bcdf6ccc534fe20, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a952c131b74488d8e2eb3a159594cc9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropShot.Judgement.JudgementSystem
+  m_EditorClassIdentifier: Assembly-CSharp::DropShot.Judgement.EasyJudgementSystem
   chartJson: {fileID: 4900000, guid: 8f5990d2a9467164d851a17b2f7521bb, type: 3}
   music: {fileID: 1423137090429943375}
   playOnStart: 0
