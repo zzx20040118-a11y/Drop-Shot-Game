@@ -1,0 +1,5 @@
+Material: M_PortalRainbow_BHard
+Shader errors: False
+Brightness 0 mean RGB: 0.0088362890528515
+Current brightness mean RGB: 0.0204026492622991
+Visible brightness change: True

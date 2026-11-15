@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 using DropShot.Judgement;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
+using HeyHeyThere.SceneTransitionsFree;
 
 public class PortalSceneTransition : MonoBehaviour
 {
@@ -26,7 +25,8 @@ public class PortalSceneTransition : MonoBehaviour
     public float sceneLoadDelay = 0f;
     public bool waitForMusicEnd = true;
     [Min(0f)] public float afterEntryPause = 0.2f;
-    [Min(0.01f)] public float fadeOutSeconds = 0.3f;
+    [InspectorName("Iris Seconds")]
+    [Min(0.01f)] public float fadeOutSeconds = 0.5f;
 
     [Header("球")]
     public Collider flyingBallCollider;
@@ -244,29 +244,17 @@ public class PortalSceneTransition : MonoBehaviour
         if (judgement != null && judgement.Core != null)
             DropShot.UI.ScoreBoard.Record(judgement.Core);
 
-        GameObject overlay = new GameObject("Ending Fade", typeof(Canvas), typeof(CanvasGroup));
-        Canvas canvas = overlay.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 32767;
-        CanvasGroup group = overlay.GetComponent<CanvasGroup>();
-        group.alpha = 0f;
-        GameObject panel = new GameObject("Black", typeof(RectTransform), typeof(Image));
-        panel.transform.SetParent(overlay.transform, false);
-        RectTransform rect = panel.GetComponent<RectTransform>();
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.offsetMin = rect.offsetMax = Vector2.zero;
-        panel.GetComponent<Image>().color = Color.black;
-        float elapsed = 0f;
-        while (elapsed < Mathf.Max(0.01f, fadeOutSeconds))
-        {
-            elapsed += Time.unscaledDeltaTime;
-            group.alpha = Mathf.Clamp01(elapsed / Mathf.Max(0.01f, fadeOutSeconds));
-            yield return null;
-        }
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
-        yield return SceneManager.LoadSceneAsync(nextSceneName);
+        // The ball is already hidden before this routine starts.
+        // ChangeScene also reveals the result scene, so the cover cannot remain black.
+        yield return SceneTransition.ChangeScene(nextSceneName, "iris",
+            new SceneTransition.Options
+            {
+                Duration = Mathf.Max(0.01f, fadeOutSeconds),
+                Color = Color.black,
+                CenterOn = portal != null ? portal.transform : null
+            });
     }
 
     void OnDestroy()

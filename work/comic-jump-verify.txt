@@ -1,0 +1,1 @@
+PASS: shader imported; 6 launch marks and 5 trail dots per layer; portal entry clears both layers.

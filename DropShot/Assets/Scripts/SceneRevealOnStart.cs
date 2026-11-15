@@ -1,16 +1,22 @@
+using System.Collections;
 using UnityEngine;
+using HeyHeyThere.SceneTransitionsFree;
 
 public class SceneRevealOnStart : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public string transitionStyle = "iris";
+    [Min(0.01f)] public float transitionDuration = 0.6f;
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator Start()
     {
-        
+        yield return null;
+        yield return SceneTransition.Reveal(
+            transitionStyle,
+            new SceneTransition.Options
+            {
+                Duration = transitionDuration,
+                Color = Color.black
+            }
+        );
     }
 }

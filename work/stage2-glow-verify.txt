@@ -1,0 +1,15 @@
+Group 0: 2 material(s), beat switching PASS
+Group 1: 2 material(s), beat switching PASS
+Group 2: 2 material(s), beat switching PASS
+Group 3: 2 material(s), beat switching PASS
+Group 4: 2 material(s), beat switching PASS
+Disable reset PASS
+Group 0: 3 material(s), beat switching PASS
+Group 1: 4 material(s), beat switching PASS
+Group 2: 3 material(s), beat switching PASS
+Group 3: 4 material(s), beat switching PASS
+Disable reset PASS
+Group 0: 2 material(s), beat switching PASS
+Group 1: 2 material(s), beat switching PASS
+Disable reset PASS
+ALL PASS: imported model groups, beat switching, material shaders, disable cleanup.
