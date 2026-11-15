@@ -11,21 +11,27 @@ public class LeaderboardManager : MonoBehaviour
     public string publishableKey;
 
     [Header("排行榜 UI")]
-    public TMP_Text leaderboardText;
+    public GameObject rankingRowPrefab;
+    public Transform rankingRowsParent;
 
     [Header("当前难度")]
     public string currentMode = "Easy";
 
+    [Header("成绩提交控制器")]
+    public LeaderboardSubmitController submitController;
+
     private string TableUrl =>
         supabaseUrl.TrimEnd('/') + "/rest/v1/leaderboard";
 
-    // =========================================
+    // =========================
     // 提交成绩
-    // =========================================
+    // =========================
 
     public void SubmitScore(string playerName, int score, string mode)
     {
-        StartCoroutine(SubmitScoreCoroutine(playerName, score, mode));
+        StartCoroutine(
+            SubmitScoreCoroutine(playerName, score, mode)
+        );
     }
 
     private IEnumerator SubmitScoreCoroutine(
@@ -48,30 +54,47 @@ public class LeaderboardManager : MonoBehaviour
 
             request.SetRequestHeader("apikey", publishableKey);
             request.SetRequestHeader(
-                "Authorization", "Bearer " + publishableKey);
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Prefer", "return=minimal");
+                "Authorization",
+                "Bearer " + publishableKey
+            );
+
+            request.SetRequestHeader(
+                "Content-Type",
+                "application/json"
+            );
+
+            request.SetRequestHeader(
+                "Prefer",
+                "return=minimal"
+            );
 
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("排行榜成绩提交成功！");
-                Debug.Log("玩家：" + playerName +
-                          " | 分数：" + score +
-                          " | 模式：" + mode);
+
+                if (submitController != null)
+                    submitController.OnUploadSuccess();
+                else
+                    Debug.LogWarning(
+                        "LeaderboardManager 没有绑定 SubmitController！"
+                    );
             }
             else
             {
                 Debug.LogError("成绩提交失败：" + request.error);
                 Debug.LogError(request.downloadHandler.text);
+
+                if (submitController != null)
+                    submitController.OnUploadFailed();
             }
         }
     }
 
-    // =========================================
+    // =========================
     // 读取排行榜
-    // =========================================
+    // =========================
 
     public void LoadLeaderboard(string mode)
     {
@@ -91,21 +114,23 @@ public class LeaderboardManager : MonoBehaviour
         {
             request.SetRequestHeader("apikey", publishableKey);
             request.SetRequestHeader(
-                "Authorization", "Bearer " + publishableKey);
+                "Authorization",
+                "Bearer " + publishableKey
+            );
 
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                string json = "{\"items\":" +
-                    request.downloadHandler.text + "}";
+                string json =
+                    "{\"items\":" + request.downloadHandler.text + "}";
 
                 LeaderboardResponse response =
                     JsonUtility.FromJson<LeaderboardResponse>(json);
 
                 ShowLeaderboard(response.items);
 
-                Debug.Log("排行榜读取成功！");
+                Debug.Log(mode + " 排行榜读取成功！");
             }
             else
             {
@@ -115,44 +140,72 @@ public class LeaderboardManager : MonoBehaviour
         }
     }
 
-    // =========================================
-    // 显示排行榜
-    // =========================================
+    // =========================
+    // 自动生成排行榜 UI
+    // =========================
 
     private void ShowLeaderboard(LeaderboardEntry[] entries)
     {
-        if (leaderboardText == null)
+        if (rankingRowPrefab == null)
         {
-            Debug.LogWarning("没有绑定排行榜 Text！");
+            Debug.LogError("RankingRow Prefab 没有绑定！");
             return;
         }
 
-        string result = "RANK       PLAYER       SCORE\n\n";
+        if (rankingRowsParent == null)
+        {
+            Debug.LogError("RankingRows 没有绑定！");
+            return;
+        }
 
+        // 清除旧的排行榜行
+        foreach (Transform child in rankingRowsParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // 没有成绩
         if (entries == null || entries.Length == 0)
         {
-            result += "No Records";
-        }
-        else
-        {
-            for (int i = 0; i < entries.Length; i++)
-            {
-                result +=
-                    (i + 1).ToString("D2") +
-                    "       " +
-                    entries[i].name +
-                    "       " +
-                    entries[i].score +
-                    "\n";
-            }
+            Debug.Log("排行榜暂无成绩");
+            return;
         }
 
-        leaderboardText.text = result;
+        // 自动生成成绩行
+        for (int i = 0; i < entries.Length; i++)
+        {
+            GameObject row = Instantiate(
+                rankingRowPrefab,
+                rankingRowsParent
+            );
+
+            TMP_Text[] texts =
+                row.GetComponentsInChildren<TMP_Text>(true);
+
+            if (texts.Length < 3)
+            {
+                Debug.LogError(
+                    "RankingRow Prefab 至少需要三个 TMP Text！"
+                );
+
+                Destroy(row);
+                continue;
+            }
+
+            // 第一个：排名
+            texts[0].text = (i + 1).ToString("D2");
+
+            // 第二个：昵称
+            texts[1].text = entries[i].name;
+
+            // 第三个：分数
+            texts[2].text = entries[i].score.ToString();
+        }
     }
 
-    // =========================================
-    // Easy / Hard 按钮
-    // =========================================
+    // =========================
+    // Easy / Hard 切换
+    // =========================
 
     public void OnEasyButtonClick()
     {
@@ -164,31 +217,9 @@ public class LeaderboardManager : MonoBehaviour
         LoadLeaderboard("Hard");
     }
 
-    // =========================================
-    // 测试功能
-    // =========================================
-
-    [ContextMenu("测试提交成绩")]
-    private void TestSubmitScore()
-    {
-        SubmitScore("TestPlayer", 1000, "Easy");
-    }
-
-    [ContextMenu("测试读取 Easy 排行榜")]
-    private void TestLoadEasy()
-    {
-        LoadLeaderboard("Easy");
-    }
-
-    [ContextMenu("测试读取 Hard 排行榜")]
-    private void TestLoadHard()
-    {
-        LoadLeaderboard("Hard");
-    }
-
-    // =========================================
-    // JSON 转义
-    // =========================================
+    // =========================
+    // JSON 处理
+    // =========================
 
     private string EscapeJson(string value)
     {
@@ -199,10 +230,6 @@ public class LeaderboardManager : MonoBehaviour
             .Replace("\\", "\\\\")
             .Replace("\"", "\\\"");
     }
-
-    // =========================================
-    // 排行榜数据
-    // =========================================
 
     [Serializable]
     public class LeaderboardEntry

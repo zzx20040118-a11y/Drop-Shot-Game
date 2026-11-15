@@ -222,6 +222,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4218431608843793197, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5005084096850649961, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
@@ -256,7 +260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6518197854896766631, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenLeaderboard
+      value: OpenSubmitScorePanel
       objectReference: {fileID: 0}
     - target: {fileID: 6518197854896766631, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -407,6 +411,10 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7740993829933776317, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
+      propertyPath: panelController
+      value: 
+      objectReference: {fileID: 541100492}
+    - target: {fileID: 7740993829933776317, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
       propertyPath: leaderboardManager
       value: 
       objectReference: {fileID: 733033164}
@@ -473,6 +481,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9073089836576598797, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073089836576598797, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
@@ -481,7 +493,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7518119245897995427, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
+    - {fileID: 9208153428356744590, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5075319428958367438, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
@@ -511,6 +525,11 @@ MonoBehaviour:
 --- !u!1 &40306278 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4218431608843793197, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
+  m_PrefabInstance: {fileID: 40306276}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &40306279 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8692021574282974345, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
   m_PrefabInstance: {fileID: 40306276}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &64595043 stripped
@@ -674,6 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 734bdb55cbf94914787fa3ddabac868e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeaderboardPanelController
+  submitScorePanel: {fileID: 1068686388}
   leaderboardPanel: {fileID: 40306278}
   leaderboardManager: {fileID: 733033164}
   backgroundImage: {fileID: 1257945371}
@@ -725,8 +745,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LeaderboardManager
   supabaseUrl: https://uvdboukywgvfgoxeuolq.supabase.co
   publishableKey: sb_publishable_IuaTb5wTuPsG7--n851FFg_iUN7eyKW
-  leaderboardText: {fileID: 1715187481}
+  rankingRowPrefab: {fileID: 476660024728981807, guid: 3cf4b05df247f674c959517048d1ca7b, type: 3}
+  rankingRowsParent: {fileID: 40306279}
   currentMode: Easy
+  submitController: {fileID: 40306277}
 --- !u!4 &733033165
 Transform:
   m_ObjectHideFlags: 0
@@ -742,6 +764,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1068686388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2950398856636145097, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
+  m_PrefabInstance: {fileID: 40306276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1155885793 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1057558966440293880, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
@@ -900,17 +927,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!114 &1715187481 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9073089836576598797, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
-  m_PrefabInstance: {fileID: 40306276}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &2027186041 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5075319428958367438, guid: 1e2f4a6de35e44647a45d5f45113431c, type: 3}
