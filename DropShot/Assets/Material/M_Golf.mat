@@ -18,7 +18,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -97,6 +98,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 0.4
+    - _CastShadows: 1
     - _CircleDensity: 5
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -107,11 +109,13 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _Emission: 0
+    - _EnableReaction: 0
     - _EnvironmentReflections: 1
     - _FalloffThreshold: 2.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Glow: 0
     - _HighlightDotSize: 0.65
     - _HighlightEnd: 1
     - _HighlightStart: 0.7
@@ -121,8 +125,9 @@ Material:
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReactionStrength: 0.35
     - _ReceiveShadows: 1
-    - _RimWidth: 0.35
+    - _RimWidth: 0.47
     - _Rotation: 0
     - _ShadingMultiplier: 0.1
     - _ShadowDotSize: 0.7
@@ -138,12 +143,17 @@ Material:
     - _USESCREENSPACE: 1
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
+    - _ZTest: 4
     - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GlowColor: {r: 0.5, g: 0.24999997, b: 0.09999997, a: 1}
     - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _NoteVisualOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _ReactionColor: {r: 1, g: 0.65, b: 0.34999996, a: 1}
     - _RimColor: {r: 0.015, g: 0.02, b: 0.03, a: 1}
     - _ShadowColor: {r: 0.11999983, g: 0.11999983, b: 0.11999983, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

@@ -6,7 +6,7 @@ namespace DropShot.Judgement
     public class JudgementDebugHUD : MonoBehaviour
     {
         public JudgementSystem judge;
-        public bool show = true;
+        public bool show = false;
         public KeyCode toggleKey = KeyCode.F1;
 
         GUIStyle style;

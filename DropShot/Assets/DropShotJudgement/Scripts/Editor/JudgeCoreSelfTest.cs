@@ -52,7 +52,17 @@ namespace DropShot.Judgement.EditorTests
                 Rig r = Make(new ChartNote { type = "Long", lane = 0, time = 2f, duration = 1f });
                 r.core.Press(0, 2.0);
                 r.core.Tick(3.0);
-                Check("Long 按住到底：头 Perfect + 尾 Perfect", r.events.Count == 2 && r.events[0].result == JudgeResult.Perfect && r.events[1].phase == JudgePhase.Tail && r.events[1].result == JudgeResult.Perfect);
+                Check("Long 到尾端仍未松开：不自动结算", r.events.Count == 1 && !r.core.Finished);
+                r.core.Release(0, 3.02);
+                Check("Long 晚 20ms 松开 = 尾 Perfect", r.events.Count == 2 && r.events[1].phase == JudgePhase.Tail && r.events[1].result == JudgeResult.Perfect);
+            }
+            {
+                Rig r = Make(new ChartNote { type = "Long", lane = 0, time = 2f, duration = 1f });
+                r.core.Press(0, 2.0);
+                r.core.Tick(3.2);
+                Check("Long 超时未松开 = 尾 Miss", r.events.Count == 2 && r.events[1].phase == JudgePhase.Tail && r.events[1].result == JudgeResult.Miss && r.core.Finished);
+                r.core.Release(0, 3.3);
+                Check("Long 超时后松开不重复判定", r.events.Count == 2);
             }
             {
                 Rig r = Make(new ChartNote { type = "Long", lane = 0, time = 2f, duration = 1f });

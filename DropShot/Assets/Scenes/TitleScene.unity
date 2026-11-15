@@ -1635,10 +1635,10 @@ MonoBehaviour:
   hardSelected: {fileID: 748392462}
   modeATutorialPanel: {fileID: 732983347}
   modeBTutorialPanel: {fileID: 2136076974}
-  modeAEasyScene: ModeA_Easy
-  modeAHardScene: ModeA_Hard
-  modeBEasyScene: ModeB_Easy
-  modeBHardScene: ModeB_Hard
+  modeAEasyScene: Game_A_Easy
+  modeAHardScene: Game_A_Hard
+  modeBEasyScene: Game_B_Easy
+  modeBHardScene: Game_B_Hard
 --- !u!1 &1055492212
 GameObject:
   m_ObjectHideFlags: 0

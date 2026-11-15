@@ -5574,8 +5574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa2fe8fc4b364759b2f8c12c78ca453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropShot.UI.TitleScreen
-  gameSceneName: Game_Hard
-  easySceneName: Game_Easy
+  gameSceneName: Game_B_Easy
+  easySceneName: Game_A_Easy
   easyButton: {fileID: 910000000000000017}
   minLoadingSeconds: 2.4
   fader: {fileID: 1975609826433876430}

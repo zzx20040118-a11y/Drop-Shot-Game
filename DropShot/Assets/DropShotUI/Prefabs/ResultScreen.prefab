@@ -3578,8 +3578,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e6c9bdc09c14f14bee165a29c0d590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropShot.UI.ResultScreen
-  titleSceneName: Title
-  gameSceneName: Game_Hard
+  titleSceneName: TitleScene
+  gameSceneName: Game_B_Easy
   fader: {fileID: 7960002820416933792}
   header: {fileID: 6292326338910230224}
   panel: {fileID: 7109188277846570276}

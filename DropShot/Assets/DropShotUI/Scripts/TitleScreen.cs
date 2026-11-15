@@ -10,8 +10,8 @@ namespace DropShot.UI
     {
         [Header("场景")]
         [Tooltip("游戏关卡场景名，需要加进 Build Settings")]
-        public string gameSceneName = "Game_Hard";
-        public string easySceneName = "Game_Easy";
+        public string gameSceneName = "Game_B_Easy";
+        public string easySceneName = "Game_A_Easy";
         public JellyButton easyButton;
         [Tooltip("开场甜甜圈动画显示多久（秒）")]
         public float minLoadingSeconds = 2.4f;

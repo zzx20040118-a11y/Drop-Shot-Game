@@ -10,6 +10,9 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     [Header("判定系统")]
     public JudgementSystem judge;
 
+    [Header("时机提示（困难模式关闭）")]
+    public bool showTimingHints = true;
+
     [Header("音符 Prefab")]
     public GameObject normalNotePrefab;
     public GameObject longNotePrefab;
@@ -61,6 +64,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
 
     private GameObject[] noteObjects;
     private ShortNoteVFX[] shortVfx;
+    private LongNoteVFX[] longVfx;
     private bool[] segmentedLongNotes;
     private Vector3[] normalRotationAxes;
     private float[] normalRotationFactors;
@@ -94,6 +98,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         noteMoveTime = judge.SongTime;
         noteObjects = new GameObject[notes.Count];
         shortVfx = new ShortNoteVFX[notes.Count];
+        longVfx = new LongNoteVFX[notes.Count];
         segmentedLongNotes = new bool[notes.Count];
         normalRotationAxes = new Vector3[notes.Count];
         normalRotationFactors = new float[notes.Count];
@@ -131,7 +136,10 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         noteObjects[noteIndex] = Instantiate(prefab);
         shortVfx[noteIndex] = noteObjects[noteIndex].GetComponent<ShortNoteVFX>();
         if (shortVfx[noteIndex] != null)
-            shortVfx[noteIndex].Initialize();
+        {
+            if (showTimingHints) shortVfx[noteIndex].Initialize();
+            else shortVfx[noteIndex].Finish();
+        }
         normalInitialRotations[noteIndex] = noteObjects[noteIndex].transform.rotation;
         normalBodies[noteIndex] = noteObjects[noteIndex].GetComponent<Rigidbody>();
         if (normalBodies[noteIndex] != null)
@@ -157,6 +165,19 @@ public class ColliderTestNoteSpawner : MonoBehaviour
         {
             CreateLongNoteSegments(noteObjects[noteIndex], length, noteIndex, selectedSegment);
             segmentedLongNotes[noteIndex] = longSegments.ContainsKey(noteIndex);
+        }
+
+        longVfx[noteIndex] = noteObjects[noteIndex].GetComponent<LongNoteVFX>();
+        if (!showTimingHints && longVfx[noteIndex] != null)
+            longVfx[noteIndex].enabled = false;
+        if (showTimingHints && longVfx[noteIndex] != null)
+        {
+            Transform visualHead = noteObjects[noteIndex].transform;
+            if (longSegments.TryGetValue(noteIndex, out LongSegmentState state))
+                visualHead = state.segments[state.segments.Count - 1];
+            Renderer headRenderer = visualHead.GetComponentInChildren<Renderer>(true);
+            longVfx[noteIndex].Initialize(judge, judge.Chart.notes[noteIndex],
+                GetHitPoint(judge.Chart.notes[noteIndex].lane), approachSpeed, headRenderer);
         }
     }
 
@@ -549,6 +570,14 @@ public class ColliderTestNoteSpawner : MonoBehaviour
 
         if (note == null)
             return;
+
+        if (longVfx[noteIndex] != null)
+        {
+            if (result.phase == JudgePhase.Head && result.result != JudgeResult.Miss)
+                longVfx[noteIndex].BeginHold();
+            else
+                longVfx[noteIndex].Finish(result.result != JudgeResult.Miss);
+        }
 
         if (longSegments.TryGetValue(noteIndex, out LongSegmentState state))
         {

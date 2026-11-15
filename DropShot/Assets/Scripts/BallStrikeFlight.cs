@@ -95,6 +95,11 @@ public class BallStrikeFlight : MonoBehaviour
         Launch();
     }
 
+    public void CancelCharge()
+    {
+        isCharging = false;
+    }
+
     void Update()
     {
         switch (currentState)

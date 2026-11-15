@@ -247,7 +247,7 @@ MonoBehaviour:
   enableOutlineGlow: 0
   ringWidth: 0.1
   burstScale: 2
-  burstEndScale: 0.1
+  burstEndScale: 0.17
   previewTime: 1.5
   outlineBrightness: 2.57
   shakePreviewTime: 0.5

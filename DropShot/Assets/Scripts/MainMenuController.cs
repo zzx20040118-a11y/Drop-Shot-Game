@@ -16,13 +16,14 @@ public class MainMenuController : MonoBehaviour
     public GameObject modeBTutorialPanel;
 
     [Header("四个游戏场景")]
-    public string modeAEasyScene = "ModeA_Easy";
-    public string modeAHardScene = "ModeA_Hard";
-    public string modeBEasyScene = "ModeB_Easy";
-    public string modeBHardScene = "ModeB_Hard";
+    public string modeAEasyScene = "Game_A_Easy";
+    public string modeAHardScene = "Game_A_Hard";
+    public string modeBEasyScene = "Game_B_Easy";
+    public string modeBHardScene = "Game_B_Hard";
 
     private bool isModeA = true;
     private bool isEasy = true;
+    private bool isLoading;
 
     private void Start()
     {
@@ -80,6 +81,7 @@ public class MainMenuController : MonoBehaviour
 
     public void StartGame()
     {
+        if (isLoading) return;
         string sceneName;
 
         if (isModeA && isEasy)
@@ -91,6 +93,13 @@ public class MainMenuController : MonoBehaviour
         else
             sceneName = modeBHardScene;
 
-        SceneManager.LoadScene(sceneName);
+        if (!Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+            Debug.LogError("无法加载游戏场景：" + sceneName, this);
+            return;
+        }
+        isLoading = true;
+        DropShot.UI.ScoreBoard.GameSceneName = sceneName;
+        SceneManager.LoadSceneAsync(sceneName);
     }
 }

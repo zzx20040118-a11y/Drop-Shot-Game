@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DropShot.Judgement
 {
@@ -26,6 +27,25 @@ namespace DropShot.Judgement
         public AudioSource strikeChargeLoop;
         [Range(0f, 1f)] public float sfxVolume = 1f;
 
+        [Header("Judgement Images")]
+        public Image judgeImage;
+        public Image comboImage;
+        public Image comboBackdrop;
+        public Sprite perfectSprite;
+        public Sprite goodSprite;
+        public Sprite missSprite;
+        public Sprite comboSprite;
+
+        [Header("Combo Pop")]
+        [Range(1f, 1.3f)] public float comboPopScale = 1.08f;
+        [Min(0.01f)] public float comboPopSeconds = 0.14f;
+        [Min(0.01f)] public float comboFadeSeconds = 0.2f;
+
+        [Header("Strike UI Focus")]
+        public bool focusStrike = true;
+        public Vector2 strikeComboOffset = new Vector2(0f, 145f);
+        [Range(0f, 1f)] public float strikeComboAlpha = 0.65f;
+
         [Header("文字")]
         public TMP_Text judgeText;
         public TMP_Text comboText;
@@ -46,20 +66,76 @@ namespace DropShot.Judgement
         public float fxLifetime = 1.5f;
 
         Coroutine textRoutine;
+        Coroutine comboRoutine;
+        Coroutine comboFadeRoutine;
+        float comboFadeAlpha = 1f;
+        int previousCombo;
+        float comboPulse = 1f;
+        bool useImage;
+        bool strikeActive;
+        Vector2 comboImagePosition;
+        Vector2 comboTextPosition;
+        Vector3 comboImageScale;
+        Vector3 comboTextScale;
+        Vector3 imageBaseScale;
+        Vector3 textBaseScale;
+        Vector2 comboBackdropPosition;
+        Vector3 comboBackdropScale;
+        float comboBackdropAlpha;
+
+        void Awake()
+        {
+            imageBaseScale = judgeImage != null ? judgeImage.transform.localScale : Vector3.one;
+            textBaseScale = judgeText != null ? judgeText.transform.localScale : Vector3.one;
+            if (judgeImage != null) judgeImage.enabled = false;
+            if (comboBackdrop != null)
+            {
+                comboBackdropAlpha = comboBackdrop.color.a;
+                comboBackdrop.enabled = false;
+                comboBackdropPosition = comboBackdrop.rectTransform.anchoredPosition;
+                comboBackdropScale = comboBackdrop.transform.localScale;
+            }
+            if (comboImage != null)
+            {
+                comboImage.enabled = false;
+                comboImagePosition = comboImage.rectTransform.anchoredPosition;
+                comboImageScale = comboImage.transform.localScale;
+            }
+            if (comboText != null)
+            {
+                comboTextPosition = comboText.rectTransform.anchoredPosition;
+                comboTextScale = comboText.transform.localScale;
+            }
+            if (judgeText != null) judgeText.text = "";
+            if (comboText != null) comboText.text = "";
+        }
 
         void OnEnable()
         {
             if (judge == null) judge = FindAnyObjectByType<JudgementSystem>();
             if (judge == null) return;
             judge.Judged += OnJudged;
+            judge.StrikeAutoStarted += OnStrikeShown;
             judge.StrikeChargeStarted += OnChargeStart;
             judge.StrikeChargeEnded += OnChargeEnd;
         }
 
         void OnDisable()
         {
+            if (textRoutine != null) StopCoroutine(textRoutine);
+            textRoutine = null;
+            if (comboRoutine != null) StopCoroutine(comboRoutine);
+            comboRoutine = null;
+            if (comboFadeRoutine != null) StopCoroutine(comboFadeRoutine);
+            comboFadeRoutine = null;
+            comboFadeAlpha = 1f;
+            comboPulse = 1f;
+            previousCombo = 0;
+            SetJudgeAlpha(0f);
+            SetStrikeFocus(false);
             if (judge == null) return;
             judge.Judged -= OnJudged;
+            judge.StrikeAutoStarted -= OnStrikeShown;
             judge.StrikeChargeStarted -= OnChargeStart;
             judge.StrikeChargeEnded -= OnChargeEnd;
         }
@@ -89,37 +165,98 @@ namespace DropShot.Judgement
 
         void ShowText(JudgeEvent e)
         {
-            if (comboText != null) comboText.text = e.combo >= 2 ? $"{e.combo} COMBO" : "";
+            bool hasComboImage = comboImage != null && comboSprite != null;
+            if (e.combo >= 2)
+            {
+                if (comboFadeRoutine != null) StopCoroutine(comboFadeRoutine);
+                comboFadeRoutine = null;
+                comboFadeAlpha = 1f;
+                if (comboBackdrop != null) comboBackdrop.enabled = true;
+                if (comboImage != null)
+                {
+                    comboImage.sprite = comboSprite;
+                    comboImage.enabled = hasComboImage;
+                }
+                if (comboText != null)
+                    comboText.text = hasComboImage ? e.combo.ToString() : $"{e.combo} COMBO";
+                SetStrikeFocus(strikeActive);
+            }
+            else if (previousCombo >= 2)
+            {
+                if (comboFadeRoutine != null) StopCoroutine(comboFadeRoutine);
+                comboFadeRoutine = StartCoroutine(FadeCombo());
+            }
+            if (e.combo >= 2 && e.combo > previousCombo)
+            {
+                if (comboRoutine != null) StopCoroutine(comboRoutine);
+                comboRoutine = StartCoroutine(PopCombo());
+            }
+            else if (e.combo < 2)
+            {
+                if (comboRoutine != null) StopCoroutine(comboRoutine);
+                comboRoutine = null;
+                comboPulse = 1f;
+                ApplyComboScale();
+            }
+            previousCombo = e.combo;
             if (scoreText != null && judge.Core != null) scoreText.text = judge.Core.Score.ToString("N0");
-            if (judgeText == null) return;
+            if (strikeActive && focusStrike && e.result != JudgeResult.Miss && e.kind != NoteKind.Strike)
+                return;
+            Sprite sprite = e.result == JudgeResult.Perfect ? perfectSprite
+                : e.result == JudgeResult.Good ? goodSprite : missSprite;
+            useImage = judgeImage != null && sprite != null;
+            if (judgeImage != null)
+            {
+                judgeImage.sprite = sprite;
+                judgeImage.enabled = useImage;
+                judgeImage.color = Color.white;
+            }
+            if (judgeText != null) judgeText.enabled = !useImage;
+            if (!useImage && judgeText == null) return;
 
-            judgeText.text = e.result == JudgeResult.Perfect ? "PERFECT" : e.result == JudgeResult.Good ? "GOOD" : "MISS";
-            judgeText.color = e.result == JudgeResult.Perfect ? perfectColor : e.result == JudgeResult.Good ? goodColor : missColor;
+            if (judgeText != null)
+            {
+                judgeText.text = e.result == JudgeResult.Perfect ? "PERFECT" : e.result == JudgeResult.Good ? "GOOD" : "MISS";
+                judgeText.color = e.result == JudgeResult.Perfect ? perfectColor : e.result == JudgeResult.Good ? goodColor : missColor;
+            }
             if (textRoutine != null) StopCoroutine(textRoutine);
             textRoutine = StartCoroutine(PopText());
         }
 
         IEnumerator PopText()
         {
-            Transform tr = judgeText.transform;
-            judgeText.alpha = 1f;
+            Transform tr = useImage ? judgeImage.transform : judgeText.transform;
+            Vector3 baseScale = useImage ? imageBaseScale : textBaseScale;
+            SetJudgeAlpha(1f);
             float t = 0f;
             while (t < 0.12f)
             {
                 t += Time.deltaTime;
-                tr.localScale = Vector3.one * Mathf.Lerp(textPopScale, 1f, t / 0.12f);
+                tr.localScale = baseScale * Mathf.Lerp(textPopScale, 1f, t / 0.12f);
                 yield return null;
             }
-            tr.localScale = Vector3.one;
+            tr.localScale = baseScale;
             yield return new WaitForSeconds(textHoldSeconds);
             t = 0f;
             while (t < 0.2f)
             {
                 t += Time.deltaTime;
-                judgeText.alpha = 1f - t / 0.2f;
+                SetJudgeAlpha(1f - t / 0.2f);
                 yield return null;
             }
-            judgeText.alpha = 0f;
+            SetJudgeAlpha(0f);
+        }
+
+        void SetJudgeAlpha(float alpha)
+        {
+            if (useImage)
+            {
+                Color color = judgeImage.color;
+                color.a = Mathf.Clamp01(alpha);
+                judgeImage.color = color;
+            }
+            else if (judgeText != null)
+                judgeText.alpha = Mathf.Clamp01(alpha);
         }
 
         void SpawnFx(JudgeEvent e)
@@ -131,6 +268,96 @@ namespace DropShot.Judgement
             Destroy(fx, fxLifetime);
         }
 
+        void OnStrikeShown(int noteIndex)
+        {
+            if (!focusStrike) return;
+            if (textRoutine != null) StopCoroutine(textRoutine);
+            textRoutine = null;
+            SetJudgeAlpha(0f);
+            SetStrikeFocus(true);
+        }
+
+        void SetStrikeFocus(bool active)
+        {
+            strikeActive = active;
+            float alpha = (active ? strikeComboAlpha : 1f) * comboFadeAlpha;
+            if (comboBackdrop != null)
+            {
+                Color color = comboBackdrop.color;
+                color.a = comboBackdropAlpha * alpha;
+                comboBackdrop.color = color;
+            }
+            if (comboImage != null)
+            {
+                Color color = comboImage.color;
+                color.a = alpha;
+                comboImage.color = color;
+            }
+            if (comboText != null)
+            {
+                comboText.alpha = alpha;
+            }
+            ApplyComboScale();
+        }
+
+        IEnumerator FadeCombo()
+        {
+            float elapsed = 0f;
+            float duration = Mathf.Max(0.01f, comboFadeSeconds);
+            while (elapsed < duration)
+            {
+                comboFadeAlpha = 1f - Mathf.Clamp01(elapsed / duration);
+                SetStrikeFocus(strikeActive);
+                elapsed += Time.unscaledDeltaTime;
+                yield return null;
+            }
+            comboFadeAlpha = 0f;
+            SetStrikeFocus(strikeActive);
+            if (comboBackdrop != null) comboBackdrop.enabled = false;
+            if (comboImage != null) comboImage.enabled = false;
+            if (comboText != null) comboText.text = "";
+            comboFadeRoutine = null;
+        }
+
+        IEnumerator PopCombo()
+        {
+            float elapsed = 0f;
+            float duration = Mathf.Max(0.01f, comboPopSeconds);
+            while (elapsed < duration)
+            {
+                comboPulse = Mathf.Lerp(comboPopScale, 1f,
+                    Mathf.SmoothStep(0f, 1f, elapsed / duration));
+                ApplyComboScale();
+                elapsed += Time.unscaledDeltaTime;
+                yield return null;
+            }
+            comboPulse = 1f;
+            ApplyComboScale();
+            comboRoutine = null;
+        }
+
+        void ApplyComboScale()
+        {
+            float scale = (strikeActive ? 0.85f : 1f) * comboPulse;
+            Vector2 offset = strikeActive ? strikeComboOffset : Vector2.zero;
+            Vector2 centre = comboBackdrop != null ? comboBackdropPosition : comboImagePosition;
+            if (comboBackdrop != null)
+            {
+                comboBackdrop.rectTransform.anchoredPosition = centre + offset;
+                comboBackdrop.transform.localScale = comboBackdropScale * scale;
+            }
+            if (comboImage != null)
+            {
+                comboImage.rectTransform.anchoredPosition = centre + offset + (comboImagePosition - centre) * scale;
+                comboImage.transform.localScale = comboImageScale * scale;
+            }
+            if (comboText != null)
+            {
+                comboText.rectTransform.anchoredPosition = centre + offset + (comboTextPosition - centre) * scale;
+                comboText.transform.localScale = comboTextScale * scale;
+            }
+        }
+
         void OnChargeStart(int noteIndex)
         {
             if (strikeChargeLoop != null) strikeChargeLoop.Play();
@@ -138,6 +365,7 @@ namespace DropShot.Judgement
 
         void OnChargeEnd(int noteIndex)
         {
+            SetStrikeFocus(false);
             if (strikeChargeLoop != null) strikeChargeLoop.Stop();
         }
     }

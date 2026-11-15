@@ -7,6 +7,7 @@ public class LaneHitInput : MonoBehaviour
     public JudgementSystem judge;
     public BallLaneControl ballLane;
     public BallHit ballHit;
+    public bool showTestUI = false;
     private int heldLane;
     private bool spaceHeld;
 
@@ -60,7 +61,7 @@ public class LaneHitInput : MonoBehaviour
 
     protected virtual void OnGUI()
     {
-        if (judge.Chart == null) return;
+        if (!showTestUI || judge == null || judge.Chart == null) return;
         string hint = "Chart complete";
         foreach (var note in judge.Chart.notes)
         {

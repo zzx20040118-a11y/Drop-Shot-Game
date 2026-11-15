@@ -20,7 +20,7 @@ namespace DropShot.UI
         [Header("场景")]
         public string titleSceneName = "Title";
         [Tooltip("留空则隐藏「再来一次」按钮")]
-        public string gameSceneName = "Game_Hard";
+        public string gameSceneName = "Game_B_Easy";
 
         [Header("引用")]
         public SceneFader fader;
