@@ -2,28 +2,28 @@ using UnityEngine;
 
 public class BallCameraFollow : MonoBehaviour
 {
-    [Header("跟随目标")]
+    [Header("Follow Target / 跟随目标")]
     public Transform target;
 
-    [Header("正常跟随")]
+    [Header("Normal Follow / 正常跟随")]
     public float normalSmoothTime = 0.12f;
 
-    [Header("击球追踪")]
+    [Header("Strike Tracking / 击球追踪")]
     public float chaseSmoothTime = 0.65f;
     public float chaseDistance = 5f;
 
-    [Header("摄像机追赶")]
+    [Header("Camera Catch-up / 摄像机追赶")]
     public float recoverySmoothTime = 0.25f;
     public float recoveryOffsetSpeed = 5f;
     public float recoveryPositionTolerance = 0.05f;
 
-    [Header("Strike 镜头震动")]
+    [Header("Strike Camera Shake / Strike 镜头震动")]
     public bool enableStrikeShake = true;
     [Min(0f)] public float strikeShakeStrength = 0.08f;
     [Min(0f)] public float strikeShakeDuration = 0.16f;
     [Min(1f)] public float strikeShakeFrequency = 25f;
 
-    [Header("判定震屏")]
+    [Header("Judgement Camera Shake / 判定震屏")]
     public bool enableJudgementShake = true;
     [Min(0f)] public float judgementShakeDuration = 0.15f;
     [Min(1f)] public float judgementShakeFrequency = 35f;

@@ -5,25 +5,25 @@ using HeyHeyThere.SceneTransitionsFree;
 
 public class TitleScreenController : MonoBehaviour
 {
-    [Header("主菜单按钮")]
+    [Header("Main Menu Buttons / 主菜单按钮")]
     public GameObject menuButtons;
 
-    [Header("菜单退出动画")]
+    [Header("Menu Exit Animation / 菜单退出动画")]
     public Animator menuExitAnimator;
     public string menuExitAnimationName = "MenuExit";
 
-    [Header("Loading 动画")]
+    [Header("Loading Animation / Loading 动画")]
     public Animator loadingAnimator;
     public string loadingAnimationName = "Loading";
 
-    [Header("Loading 完成动画")]
+    [Header("Loading Complete Animation / Loading 完成动画")]
     public string loadingCompleteAnimationName = "LoadingComplete";
 
-    [Header("场景转场")]
+    [Header("Scene Transition / 场景转场")]
     public string transitionStyle = "iris";
     public float transitionDuration = 0.6f;
 
-    [Header("四个游戏场景")]
+    [Header("Four Gameplay Scenes / 四个游戏场景")]
     public string modeAEasyScene = "ModeA_Easy";
     public string modeAHardScene = "ModeA_Hard";
     public string modeBEasyScene = "ModeB_Easy";

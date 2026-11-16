@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class StrikeRingUI : MonoBehaviour
 {
-    [Header("外圈")]
+    [Header("Outer Ring / 外圈")]
     public GameObject strikeRing;
     public RectTransform ringTransform;
 
-    [Header("内圈 PERFECT 目标")]
+    [Header("Inner Ring Perfect Target / 内圈 PERFECT 目标")]
     public GameObject targetRing;
     public RectTransform targetRingTransform;
     [Min(0.01f)] public float targetSpriteSizeRatio = 1f;
 
-    [Header("提示图片与文字")]
+    [Header("Hint Images and Text / 提示图片与文字")]
     public TMP_Text holdSpaceText;
     public GameObject holdSpaceImage;
     public Sprite holdSpaceSprite;
@@ -25,7 +25,7 @@ public class StrikeRingUI : MonoBehaviour
     public string releaseLabel = "RELEASE ON ALIGNMENT";
     [Range(0f, 1f)] public float hintOutlineWidth = 0.3f;
 
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judgement;
     [HideInInspector] public float visualShrinkDuration = 1f;
 

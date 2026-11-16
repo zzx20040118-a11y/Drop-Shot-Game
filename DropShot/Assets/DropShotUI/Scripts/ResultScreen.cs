@@ -16,12 +16,12 @@ namespace DropShot.UI
             public TMP_Text value;
         }
 
-        [Header("场景")]
+        [Header("Scenes / 场景")]
         public string titleSceneName = "Title";
-        [Tooltip("留空则隐藏「再来一次」按钮")]
+        [Tooltip("Leave empty to hide the Retry button / 留空则隐藏「再来一次」按钮")]
         public string gameSceneName = "Game_B_Easy";
 
-        [Header("引用")]
+        [Header("References / 引用")]
         public SceneFader fader;
         public RectTransform header;
         public RectTransform panel;
@@ -34,21 +34,21 @@ namespace DropShot.UI
         public JellyButton returnButton;
         public JellyButton retryButton;
 
-        [Header("排行榜提交")]
+        [Header("Leaderboard Submission / 排行榜提交")]
         public LeaderboardSubmitController leaderboardSubmitController;
 
-        [Header("计数")]
+        [Header("Score Counting / 计数")]
         public float scoreCountSeconds = 1.6f;
         public float rowCountSeconds = 0.45f;
 
-        [Header("没有成绩时（直接打开 End 场景预览）用的示例数据")]
+        [Header("Preview Data (used when opening End without a result) / 没有成绩时（直接打开 End 场景预览）用的示例数据")]
         public int demoScore = 13626;
         public int demoPerfect = 40;
         public int demoGood = 12;
         public int demoMiss = 2;
         public int demoMaxCombo = 36;
 
-        [Header("音效（可空）")]
+        [Header("Sound Effects (optional) / 音效（可空）")]
         public AudioSource sfx;
         public AudioClip bottleLandClip;
         public AudioClip countTickClip;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TutorialPanelController : MonoBehaviour
 {
-    [Header("教程页面")]
+    [Header("Tutorial Pages / 教程页面")]
     public GameObject[] pages;
 
     private int currentPage = 0;

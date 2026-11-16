@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
 {
-    [Header("输入模式图片")]
+    [Header("Input Mode Images / 输入模式图片")]
     public GameObject modeASelected;
     public GameObject modeBSelected;
 
-    [Header("难度图片")]
+    [Header("Difficulty Images / 难度图片")]
     public GameObject easySelected;
     public GameObject hardSelected;
 
-    [Header("教程 Panel")]
+    [Header("Tutorial Panels / 教程 Panel")]
     public GameObject modeATutorialPanel;
     public GameObject modeBTutorialPanel;
 

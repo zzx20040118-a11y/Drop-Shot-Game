@@ -3,18 +3,18 @@ using DropShot.Judgement;
 
 public class JudgementHitStop : MonoBehaviour
 {
-    [Header("顿帧时长")]
+    [Header("Hit Stop Duration / 顿帧时长")]
     public float perfectHitStop = 0.1f;
     public float goodHitStop = 0.05f;
 
-    [Header("判定震屏强度")]
+    [Header("Judgement Shake Strength / 判定震屏强度")]
     public float perfectShakeStrength = 0.2f;
     public float goodShakeStrength = 0.08f;
 
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judgement;
 
-    [Header("摄像机")]
+    [Header("Camera / 摄像机")]
     public BallCameraFollow ballCameraFollow;
 
     private void OnEnable()

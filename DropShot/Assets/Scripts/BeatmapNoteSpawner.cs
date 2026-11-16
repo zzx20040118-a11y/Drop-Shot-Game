@@ -3,18 +3,18 @@ using DropShot.Judgement;
 
 public class BeatmapNoteSpawner : MonoBehaviour
 {
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judge;
 
-    [Header("音符 Prefab")]
+    [Header("Note Prefabs / 音符 Prefab")]
     public GameObject normalNotePrefab;
     public GameObject longNotePrefab;
 
-    [Header("判定点")]
+    [Header("Hit Points / 判定点")]
     public Transform leftHitPoint;
     public Transform rightHitPoint;
 
-    [Header("生成参数")]
+    [Header("Spawn Settings / 生成参数")]
     public float approachSeconds = 2f;
     public float approachSpeed = 40f;
 

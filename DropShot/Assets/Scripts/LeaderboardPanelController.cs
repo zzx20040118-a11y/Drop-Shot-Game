@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class LeaderboardPanelController : MonoBehaviour
 {
-    [Header("提交成绩页面")]
+    [Header("Score Submission Panel / 提交成绩页面")]
     public GameObject submitScorePanel;
 
-    [Header("排行榜页面")]
+    [Header("Leaderboard Panel / 排行榜页面")]
     public GameObject leaderboardPanel;
 
-    [Header("排行榜管理器")]
+    [Header("Leaderboard Manager / 排行榜管理器")]
     public LeaderboardManager leaderboardManager;
 
-    [Header("排行榜底图")]
+    [Header("Leaderboard Background / 排行榜底图")]
     public Image backgroundImage;
     public Sprite easyBackground;
     public Sprite hardBackground;

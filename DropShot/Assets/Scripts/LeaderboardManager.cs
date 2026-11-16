@@ -6,18 +6,18 @@ using TMPro;
 
 public class LeaderboardManager : MonoBehaviour
 {
-    [Header("Supabase 配置")]
+    [Header("Supabase Configuration / Supabase 配置")]
     public string supabaseUrl;
     public string publishableKey;
 
-    [Header("排行榜 UI")]
+    [Header("Leaderboard UI / 排行榜 UI")]
     public GameObject rankingRowPrefab;
     public Transform rankingRowsParent;
 
-    [Header("当前难度")]
+    [Header("Current Difficulty / 当前难度")]
     public string currentMode = "Easy";
 
-    [Header("成绩提交控制器")]
+    [Header("Score Submission Controller / 成绩提交控制器")]
     public LeaderboardSubmitController submitController;
 
     private string TableUrl =>

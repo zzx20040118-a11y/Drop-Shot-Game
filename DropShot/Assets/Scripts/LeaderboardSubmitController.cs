@@ -7,13 +7,13 @@ using System;
 
 public class LeaderboardSubmitController : MonoBehaviour
 {
-    [Header("排行榜管理器")]
+    [Header("Leaderboard Manager / 排行榜管理器")]
     public LeaderboardManager leaderboardManager;
 
-    [Header("排行榜页面控制器")]
+    [Header("Leaderboard Panel Controller / 排行榜页面控制器")]
     public LeaderboardPanelController panelController;
 
-    [Header("成绩 UI")]
+    [Header("Score UI / 成绩 UI")]
     public TMP_InputField playerNameInput;
     public TMP_Text scoreText;
     public Button submitButton;

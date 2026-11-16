@@ -8,32 +8,32 @@ namespace DropShot.UI
     // 标题动画完成后选择 EASY / HARD，再异步加载对应场景并播放击球转场。
     public class TitleScreen : MonoBehaviour
     {
-        [Header("场景")]
-        [Tooltip("游戏关卡场景名，需要加进 Build Settings")]
+        [Header("Scenes / 场景")]
+        [Tooltip("Gameplay scene name; add the scene to Build Settings / 游戏关卡场景名，需要加进 Build Settings")]
         public string gameSceneName = "Game_B_Easy";
         public string easySceneName = "Game_A_Easy";
         public JellyButton easyButton;
-        [Tooltip("开场甜甜圈动画显示多久（秒）")]
+        [Tooltip("Duration of the opening donut animation (seconds) / 开场甜甜圈动画显示多久（秒）")]
         public float minLoadingSeconds = 2.4f;
 
-        [Header("引用")]
+        [Header("References / 引用")]
         public SceneFader fader;
         public RectTransform logo;
-        [Tooltip("标语整组（文字 + 投影）用 CanvasGroup 淡入")]
+        [Tooltip("Fade in the entire tagline group (text and shadow) using CanvasGroup / 标语整组（文字 + 投影）用 CanvasGroup 淡入")]
         public CanvasGroup tagline;
         public DonutLoader loader;
         public JellyButton startButton;
-        [Tooltip("可空：按开始页面草图加的 QUIT 按钮")]
+        [Tooltip("Optional Quit button from the title screen sketch / 可空：按开始页面草图加的 QUIT 按钮")]
         public JellyButton quitButton;
         public TMP_Text startHint;
 
-        [Header("开场击球（可空，按标题动画草稿）")]
+        [Header("Opening Ball Strike (optional, based on the title animation sketch) / 开场击球（可空，按标题动画草稿）")]
         public RectTransform ball;
         public RectTransform tee;
-        [Tooltip("螺旋的父物体：转场时整体放大，冲进螺旋")]
+        [Tooltip("Spiral parent object; scales up during the transition to enter the spiral / 螺旋的父物体：转场时整体放大，冲进螺旋")]
         public RectTransform spiralZoom;
 
-        [Header("音效（可空）")]
+        [Header("Sound Effects (optional) / 音效（可空）")]
         public AudioSource sfx;
         public AudioClip logoLandClip;
         public AudioClip loadTickClip;

@@ -13,10 +13,10 @@ namespace DropShot.Environment
     {
         public float baseAmplitude = 0.5f;   // 与材质当前值一致
         public float bassAmplitude = 0.3f;
-        [Tooltip("每拍摆动几次")]
+        [Tooltip("Oscillations per beat / 每拍摆动几次")]
         public float wobblesPerBeat = 1f;
         public float holdSquash = 0.15f;
-        [Tooltip("由音符脚本在这根长条被按住时设为 true；为空时用导演的全局 LongHolding")]
+        [Tooltip("Set to true by the note script while this long note is held; if unassigned, use the director's global LongHolding / 由音符脚本在这根长条被按住时设为 true；为空时用导演的全局 LongHolding")]
         public bool held;
         public bool useGlobalHold = true;
 

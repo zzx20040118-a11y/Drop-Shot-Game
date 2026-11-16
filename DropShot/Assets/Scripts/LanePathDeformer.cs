@@ -4,16 +4,16 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class LanePathDeformer : MonoBehaviour
 {
-    [Header("轨道交叉")]
+    [Header("Lane Crossing / 轨道交叉")]
     public float crossAmplitude = 3f;
     public float crossDuration = 3f;
     public float crossInterval = 8f;
 
-    [Header("轨道弯曲")]
+    [Header("Lane Curvature / 轨道弯曲")]
     public float swayAmplitude = 1.5f;
     public float swayFrequency = 0.08f;
 
-    [Header("轨道编号")]
+    [Header("Lane Index / 轨道编号")]
     [Range(0, 1)]
     public int laneIndex = 0;
 

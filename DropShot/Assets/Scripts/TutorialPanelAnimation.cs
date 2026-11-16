@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TutorialPanelAnimation : MonoBehaviour
 {
-    [Header("弹出动画")]
+    [Header("Pop-up Animation / 弹出动画")]
     public float duration = 0.35f;
     public float startScale = 0.7f;
     public float overshootScale = 1.2f;

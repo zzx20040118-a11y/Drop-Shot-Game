@@ -6,36 +6,36 @@ using HeyHeyThere.SceneTransitionsFree;
 
 public class PortalSceneTransition : MonoBehaviour
 {
-    [Header("传送门")]
+    [Header("Portal / 传送门")]
     public GameObject portal;
     public BoxCollider portalCollider;
 
-    [Header("出现动画")]
+    [Header("Entrance Animation / 出现动画")]
     [Min(0f)] public float portalPreviewSeconds = 0.8f;
     [Min(0.01f)] public float appearSeconds = 0.45f;
     [Range(0f, 0.25f)] public float appearOvershoot = 0.08f;
 
-    [Header("球进入黑洞")]
+    [Header("Ball Entry into Portal / 球进入黑洞")]
     [FormerlySerializedAs("finishApproachSeconds")]
     [Min(0.01f)] public float ballEnterSeconds = 1.5f;
     [Range(0f, 0.95f)] public float shrinkStart = 0.72f;
     [Range(0f, 0.85f)] public float cameraFollowAmount = 0.65f;
 
-    [Header("收尾")]
+    [Header("Outro / 收尾")]
     public float sceneLoadDelay = 0f;
     public bool waitForMusicEnd = true;
     [Min(0f)] public float afterEntryPause = 0.2f;
     [InspectorName("Iris Seconds")]
     [Min(0.01f)] public float fadeOutSeconds = 0.5f;
 
-    [Header("球")]
+    [Header("Balls / 球")]
     public Collider flyingBallCollider;
     public Collider rollingBallCollider;
 
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judgement;
 
-    [Header("场景")]
+    [Header("Scenes / 场景")]
     public string nextSceneName;
 
     bool portalActivated;

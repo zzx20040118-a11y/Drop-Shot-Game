@@ -10,25 +10,25 @@ public class BallStrikeFlight : MonoBehaviour
         CameraCatchUp,
     }
 
-    [Header("正常球")]
+    [Header("Normal Ball / 正常球")]
     public GameObject normalBall;
 
-    [Header("当前状态")]
+    [Header("Current State / 当前状态")]
     public BallState currentState = BallState.Normal;
 
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judgement;
 
-    [Header("球体组件")]
+    [Header("Ball Components / 球体组件")]
     public BallHit ballHit;
     public BallCameraFollow ballCamera;
 
-    [Header("击球设置")]
+    [Header("Launch Settings / 击球设置")]
     public float launchForwardSpeed = 15f;
     public float launchUpSpeed = 8f;
     public float gravity = 18f;
 
-    [Header("落地设置")]
+    [Header("Landing Settings / 落地设置")]
     public float groundY = 0f;
     public float ballRadius = 0.5f;
 

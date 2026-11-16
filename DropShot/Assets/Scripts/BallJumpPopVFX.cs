@@ -5,7 +5,7 @@ public class BallJumpPopVFX : MonoBehaviour
 {
     public BallStrikeFlight flight;
     public Material particleMaterial;
-    [Header("普通滚球（飞行球不要勾选）")]
+    [Header("Rolling Ball Trail (disable for the flying ball) / 普通滚球（飞行球不要勾选）")]
     public bool rollingTrail;
     [Min(0f)] public float rollingTrailSpeed = 6f;
     [Min(0.02f)] public float trailInterval = 0.065f;

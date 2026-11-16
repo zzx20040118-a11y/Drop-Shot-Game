@@ -3,7 +3,7 @@ using DropShot.Judgement;
 
 public class StrikeBulletTimeController : MonoBehaviour
 {
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judgement;
 
     [Header("Bullet Time")]

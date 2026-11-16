@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class StagePositionMove : MonoBehaviour
 {
-    [Header("移动速度")]
+    [Header("Movement Speed / 移动速度")]
     public Vector3 moveSpeed = new Vector3(-0.2f, 0f, 0f);
 
-    [Header("移动状态")]
+    [Header("Movement State / 移动状态")]
     public bool canMove = false;
 
     void Update()

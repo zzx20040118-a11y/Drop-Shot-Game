@@ -11,7 +11,7 @@ namespace DropShot.Judgement
     {
         public JudgementSystem judge;
 
-        [Header("音效（素材库里的建议对应见 README）")]
+        [Header("Sound Effects (see README for suggested clips) / 音效（素材库里的建议对应见 README）")]
         public AudioSource sfxSource;
         public AudioClip perfectClip;
         public AudioClip goodClip;
@@ -21,9 +21,9 @@ namespace DropShot.Judgement
         public AudioClip strikePerfectClip;
         [Tooltip("Uses the regular Good clip when empty.")]
         public AudioClip strikeGoodClip;
-        [Tooltip("Perfect 时叠加的碎裂声，可留空")]
+        [Tooltip("Optional shatter sound layered over Perfect hits / Perfect 时叠加的碎裂声，可留空")]
         public AudioClip perfectLayerClip;
-        [Tooltip("按住空格蓄力时循环播放")]
+        [Tooltip("Loop while holding Space to charge / 按住空格蓄力时循环播放")]
         public AudioSource strikeChargeLoop;
         [Range(0f, 1f)] public float sfxVolume = 1f;
 
@@ -46,7 +46,7 @@ namespace DropShot.Judgement
         public Vector2 strikeComboOffset = new Vector2(0f, 145f);
         [Range(0f, 1f)] public float strikeComboAlpha = 0.65f;
 
-        [Header("文字")]
+        [Header("Text / 文字")]
         public TMP_Text judgeText;
         public TMP_Text comboText;
         public TMP_Text scoreText;
@@ -56,7 +56,7 @@ namespace DropShot.Judgement
         public float textPopScale = 1.3f;
         public float textHoldSeconds = 0.4f;
 
-        [Header("特效 Prefab（粒子等），生成在对应赛道位置")]
+        [Header("Effect Prefabs (particles, etc.), spawned at the matching lane / 特效 Prefab（粒子等），生成在对应赛道位置")]
         public GameObject perfectFx;
         public GameObject goodFx;
         public GameObject missFx;

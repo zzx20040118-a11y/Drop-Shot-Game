@@ -3,14 +3,14 @@ using DropShot.Judgement;
 
 public class BallLaneFollow : MonoBehaviour
 {
-    [Header("轨道参考点")]
+    [Header("Lane Reference Points / 轨道参考点")]
     public Transform leftHitPoint;
     public Transform rightHitPoint;
 
-    [Header("轨道跟随")]
+    [Header("Lane Following / 轨道跟随")]
     public bool followLane = true;
 
-    [Header("球体转向")]
+    [Header("Ball Steering / 球体转向")]
     public Transform ballRotationTarget;
     public float rotationSpeed = 8f;
     public float leftLaneRotation = -15f;

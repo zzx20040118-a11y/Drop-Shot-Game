@@ -6,7 +6,7 @@ namespace DropShot.UI
     public class Spinner : MonoBehaviour
     {
         public float degreesPerSecond = -12f;
-        [Tooltip("每分钟脉动次数，0 = 不脉动；默认对齐 Gameotoon 的 122 BPM")]
+        [Tooltip("Pulses per minute; 0 disables pulsing. Defaults to Gameotoon's 122 BPM / 每分钟脉动次数，0 = 不脉动；默认对齐 Gameotoon 的 122 BPM")]
         public float pulseBpm = 122f;
         public float pulseAmount = 0.025f;
 

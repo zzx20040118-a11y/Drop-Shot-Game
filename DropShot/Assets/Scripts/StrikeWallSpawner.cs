@@ -22,7 +22,7 @@ public class StrikeWallSpawner : MonoBehaviour
     [Header("Wall Appearance")]
     [Min(0f)] public float wallShowDelay = 0.2f;
 
-    [Header("墙与碎片淡出")]
+    [Header("Wall and Debris Fade-out / 墙与碎片淡出")]
     [Min(0.01f)] public float wallFadeSeconds = 0.2f;
     [Min(0.01f)] public float fragmentFadeSeconds = 0.3f;
 

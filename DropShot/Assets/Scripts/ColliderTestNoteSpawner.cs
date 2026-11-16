@@ -7,13 +7,13 @@ using UnityEngine.Serialization;
 
 public class ColliderTestNoteSpawner : MonoBehaviour
 {
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judge;
 
-    [Header("时机提示（困难模式关闭）")]
+    [Header("Timing Hints (disabled in Hard mode) / 时机提示（困难模式关闭）")]
     public bool showTimingHints = true;
 
-    [Header("音符 Prefab")]
+    [Header("Note Prefabs / 音符 Prefab")]
     public GameObject normalNotePrefab;
     public GameObject longNotePrefab;
 
@@ -26,29 +26,29 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     [FormerlySerializedAs("perfectHitBall")]
     public Transform hitBall;
 
-    [Header("短音随机模型（留空则使用 Normal Note Prefab）")]
+    [Header("Random Short Note Models (leave empty to use Normal Note Prefab) / 短音随机模型（留空则使用 Normal Note Prefab）")]
     public GameObject[] normalNotePrefabs = new GameObject[0];
 
-    [Header("短音缓慢旋转")]
+    [Header("Short Note Slow Rotation / 短音缓慢旋转")]
     public bool rotateNormalNotes = true;
-    [Tooltip("每秒旋转角度；每颗糖果随机选择速度和旋转轴。")]
+    [Tooltip("Degrees per second; each candy uses a random speed and rotation axis / 每秒旋转角度；每颗糖果随机选择速度和旋转轴。")]
     public Vector2 normalRotationSpeed = new Vector2(3f, 8f);
 
-    [Header("判定点")]
+    [Header("Hit Points / 判定点")]
     public Transform leftHitPoint;
     public Transform rightHitPoint;
 
-    [Header("生成参数")]
+    [Header("Spawn Settings / 生成参数")]
     public float approachSeconds = 2f;
     public float approachSpeed = 40f;
 
     [Header("Long Note")]
     public float longNoteWidth = 1f;
 
-    [Header("长音分段模型（留空则使用原长条）")]
+    [Header("Long Note Segment Models (leave empty to use the original long note) / 长音分段模型（留空则使用原长条）")]
     public GameObject segmentPrefab;
 
-    [Tooltip("每条长音随机选择一款，整条保持相同模型；留空则使用 Segment Prefab。")]
+    [Tooltip("Randomly choose one model per long note; all segments share it. Leave empty to use Segment Prefab / 每条长音随机选择一款，整条保持相同模型；留空则使用 Segment Prefab。")]
     public GameObject[] segmentPrefabs = new GameObject[0];
 
     [Min(0f)]
@@ -58,7 +58,7 @@ public class ColliderTestNoteSpawner : MonoBehaviour
     [Min(0.01f)]
     public float segmentScale = 1f;
 
-    [Header("短音彈飛")]
+    [Header("Short Note Knockback / 短音彈飛")]
     public Vector3 hitImpulse = new Vector3(5f, 5f, 0f);
     public float cleanupDelay = 3f;
 

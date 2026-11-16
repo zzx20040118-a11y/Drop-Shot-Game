@@ -5,29 +5,29 @@ using DropShot.Judgement;
 
 public class GameplayCountdown : MonoBehaviour
 {
-    [Header("倒计时 UI")]
+    [Header("Countdown UI / 倒计时 UI")]
     public TMP_Text countdownText;
 
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judgementSystem;
 
-    [Header("场景移动")]
+    [Header("Stage Movement / 场景移动")]
     public StagePositionMove stagePositionMove;
 
-    [Header("球体特效")]
+    [Header("Ball Effects / 球体特效")]
     public GameObject ballEffectController;
 
-    [Header("倒计时音效")]
+    [Header("Countdown Audio / 倒计时音效")]
     public AudioSource countdownAudio;
     public AudioClip tickClip;
     public AudioClip goClip;
 
-    [Header("时间设置")]
+    [Header("Timing Settings / 时间设置")]
     public float numberDuration = 1f;
     public float goDuration = 0.5f;
     public float startDelayAfterGo = 1f;
 
-    [Header("动画设置")]
+    [Header("Animation Settings / 动画设置")]
     public float popScale = 1.5f;
     public float animationDuration = 0.2f;
 

@@ -33,49 +33,49 @@ namespace DropShot.Environment
         public event Action<int> Bar;
 
         // ───────────── 配置 ─────────────
-        [Header("音乐 / 节拍")]
+        [Header("Music / Beat / 音乐 / 节拍")]
         public AudioSource music;
         public float bpm = 120f;
         public int beatsPerBar = 4;
-        [Tooltip("曲子第一拍距离音频开头的秒数")]
+        [Tooltip("Time from the start of the audio to the first beat (seconds) / 曲子第一拍距离音频开头的秒数")]
         public float firstBeatOffset = 0f;
-        [Tooltip("与 JudgementSystem 的 audioOffsetMs 保持一致")]
+        [Tooltip("Match audioOffsetMs in JudgementSystem / 与 JudgementSystem 的 audioOffsetMs 保持一致")]
         public float audioOffsetMs = 0f;
-        [Tooltip("每拍脉冲的衰减速度，越大越干脆")]
+        [Tooltip("Beat pulse decay speed; higher values produce a sharper pulse / 每拍脉冲的衰减速度，越大越干脆")]
         public float pulseSharpness = 6f;
 
-        [Header("频谱")]
+        [Header("Audio Spectrum / 频谱")]
         public FFTWindow fftWindow = FFTWindow.BlackmanHarris;
         public float attackTime = 0.03f;
         public float releaseTime = 0.25f;
-        [Tooltip("自动增益峰值每秒保留的比例（越小，换段落后适应越快）")]
+        [Tooltip("Peak auto-gain retained per second; lower values adapt faster to new sections / 自动增益峰值每秒保留的比例（越小，换段落后适应越快）")]
         [Range(0.1f, 0.99f)] public float peakKeepPerSecond = 0.7f;
 
         [Header("Combo")]
-        [Tooltip("L1 / L2 / L3 的 combo 门槛")]
+        [Tooltip("Combo thresholds for L1 / L2 / L3 / L1 / L2 / L3 的 combo 门槛")]
         public int[] comboThresholds = { 10, 30, 60 };
-        [Tooltip("到达这些 combo 时在下一拍播放提示音")]
+        [Tooltip("Play a cue on the next beat when these combo counts are reached / 到达这些 combo 时在下一拍播放提示音")]
         public int[] comboMilestones = { 10, 30, 60, 100 };
 
-        [Header("混音（参数需在 AudioMixer 里 Expose）")]
+        [Header("Audio Mixing (expose parameters in AudioMixer) / 混音（参数需在 AudioMixer 里 Expose）")]
         public AudioMixer mixer;
-        [Tooltip("Music 组 Lowpass Simple 的 Cutoff freq")]
+        [Tooltip("Lowpass Simple cutoff frequency on the Music group / Music 组 Lowpass Simple 的 Cutoff freq")]
         public string musicCutoffParam = "MusicCutoff";
-        [Tooltip("Music 组音量（dB）")]
+        [Tooltip("Music group volume (dB) / Music 组音量（dB）")]
         public string musicVolumeParam = "MusicVolume";
         public float chargeMinCutoff = 800f;
         public float musicDuckDb = -2f;
         public AudioMixerSnapshot normalSnapshot;
         public AudioMixerSnapshot pauseSnapshot;
 
-        [Header("环境声")]
+        [Header("Ambient Audio / 环境声")]
         public AudioSource sfx;            // 一次性音效（冲击、落地、miss）
         public AudioSource riserSource;    // Strike riser，需要 PlayScheduled
         public AudioSource chimeSource;    // combo 里程碑，量化到下一拍
         public AudioSource longHumSource;  // Long 按住时的持续 hum，loop
         public AudioClip impactClip, strikeMissClip, landClip;
 
-        [Header("场景")]
+        [Header("Scenes / 场景")]
         public Light[] envLights;
         public bool driveFog = true;
         public float fogBassAmount = 0.3f;
@@ -83,8 +83,8 @@ namespace DropShot.Environment
         public float barFovKick = 0.5f;
         public float strikeFovKick = 4f;
 
-        [Header("可访问性")]
-        [Tooltip("减弱闪烁：关闭白闪和频闪，只保留平滑变化")]
+        [Header("Accessibility / 可访问性")]
+        [Tooltip("Reduce flashing: disable white flashes and strobes, keeping smooth changes / 减弱闪烁：关闭白闪和频闪，只保留平滑变化")]
         public bool reduceFlashing = false;
 
         // ───────────── 只读输出（其他脚本读取） ─────────────

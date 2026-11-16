@@ -13,24 +13,24 @@ namespace DropShot.Judgement
     {
         [Serializable] public class JudgeUnityEvent : UnityEvent<JudgeEvent> { }
 
-        [Header("谱面与音乐")]
+        [Header("Beatmap and Music / 谱面与音乐")]
         public TextAsset chartJson;
         public AudioSource music;
-        [Tooltip("开始时自动播放音乐并开始判定")]
+        [Tooltip("Automatically start music and judgement on startup / 开始时自动播放音乐并开始判定")]
         public bool playOnStart = true;
         public bool readKeyboard = true;
-        [Tooltip("音频延迟补偿（毫秒）。觉得总是按早了就调大")]
+        [Tooltip("Audio timing offset (ms); increase if your hits consistently register early / 音频延迟补偿（毫秒）。觉得总是按早了就调大")]
         public float audioOffsetMs = 0f;
 
-        [Header("按键")]
+        [Header("Key Bindings / 按键")]
         public KeyCode lane0Key = KeyCode.D;
         public KeyCode lane1Key = KeyCode.F;
         public KeyCode strikeKey = KeyCode.Space;
 
-        [Header("判定参数")]
+        [Header("Judgement Settings / 判定参数")]
         public JudgeSettings settings = new JudgeSettings();
 
-        [Header("事件（可在 Inspector 里连到别的脚本）")]
+        [Header("Events (connect to other scripts in the Inspector) / 事件（可在 Inspector 里连到别的脚本）")]
         public JudgeUnityEvent onJudged = new JudgeUnityEvent();
 
         public event Action<JudgeEvent> Judged;

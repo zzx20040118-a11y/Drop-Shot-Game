@@ -4,13 +4,13 @@ using DropShot.Judgement;
 
 public class FinalPortalController : MonoBehaviour
 {
-    [Header("判定系统")]
+    [Header("Judgement System / 判定系统")]
     public JudgementSystem judgement;
 
-    [Header("传送门")]
+    [Header("Portal / 传送门")]
     public GameObject portal;
 
-    [Header("下一关场景名称")]
+    [Header("Next Scene Name / 下一关场景名称")]
     public string nextSceneName = "End";
 
     private int finalStrikeIndex = -1;

@@ -11,22 +11,22 @@ namespace DropShot.UI
     public class JellyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
     {
         public RectTransform visual;
-        [Tooltip("按钮下方的投影，按下时会被按钮盖住")]
+        [Tooltip("Shadow below the button, covered when the button is pressed / 按钮下方的投影，按下时会被按钮盖住")]
         public RectTransform shadow;
         public KeyCode hotkey = KeyCode.None;
         public bool interactable = true;
 
-        [Header("动效参数")]
+        [Header("Animation Settings / 动效参数")]
         public float idleBreath = 0.025f;
         public float idleSpeed = 2.2f;
         public float hoverScale = 1.08f;
         public float hoverTilt = -3f;
         public Vector2 pressSquash = new Vector2(1.08f, 0.88f);
         public float pressSink = 8f;
-        [Tooltip("点击后等果冻动画播一会儿再触发 onClick")]
+        [Tooltip("Delay onClick after the click so the jelly animation can play / 点击后等果冻动画播一会儿再触发 onClick")]
         public float clickDelay = 0.22f;
 
-        [Header("音效（可空）")]
+        [Header("Sound Effects (optional) / 音效（可空）")]
         public AudioSource sfx;
         public AudioClip hoverClip;
         public AudioClip clickClip;

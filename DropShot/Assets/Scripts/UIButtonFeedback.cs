@@ -7,7 +7,7 @@ public class UIButtonFeedback : MonoBehaviour,
     IPointerDownHandler,
     IPointerUpHandler
 {
-    [Header("缩放设置")]
+    [Header("Scale Settings / 缩放设置")]
     public float hoverScale = 1.08f;
     public float pressedScale = 0.88f;
     public float animationSpeed = 18f;

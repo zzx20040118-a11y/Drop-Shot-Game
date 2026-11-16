@@ -10,11 +10,11 @@ public class RowGlow : MonoBehaviour
     [Tooltip("Number of beats for one complete fade in and fade out.")]
     [Min(1f)] public float beatsPerFlash = 2f;
 
-    [Header("按模型名稱分組（留空沿用原本材質列表）")]
+    [Header("Group by Model Name (leave empty to use the original material list) / 按模型名稱分組（留空沿用原本材質列表）")]
     public Transform targetRoot;
-    [Tooltip("每項是一組物件名稱前綴，多個前綴用 | 分隔。")]
+    [Tooltip("Each entry is a group of object name prefixes; separate multiple prefixes with a vertical bar / 每項是一組物件名稱前綴，多個前綴用 | 分隔。")]
     public string[] objectGroups = new string[0];
-    [Tooltip("可選：與物件分組一一對應，只讓指定名稱的材質發光，多個名稱用 | 分隔。留空則整組發光。")]
+    [Tooltip("Optional material names for each object group; separate names with a vertical bar. Leave empty to light the whole group / 可選：與物件分組一一對應，只讓指定名稱的材質發光，多個名稱用 | 分隔。留空則整組發光。")]
     public string[] groupMaterialNames = new string[0];
     [Min(0f)] public float glowStrength = 1f;
     public bool overrideGlowColor;

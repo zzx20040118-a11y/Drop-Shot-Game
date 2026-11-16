@@ -9,9 +9,9 @@ namespace DropShot.Environment
 {
     public class TunnelRingPulse : MonoBehaviour
     {
-        [Tooltip("波的起点，一般是 NormalBall")]
+        [Tooltip("Wave origin, usually NormalBall / 波的起点，一般是 NormalBall")]
         public Transform origin;
-        [Tooltip("管道前进方向的参照（不要用会滚动旋转的球本身），默认主摄像机")]
+        [Tooltip("Reference for the tunnel forward direction; defaults to the main camera. Do not use the rolling ball / 管道前进方向的参照（不要用会滚动旋转的球本身），默认主摄像机")]
         public Transform forwardReference;
         public Renderer[] rings;
 
@@ -19,14 +19,14 @@ namespace DropShot.Environment
         [ColorUsage(false, true)] public Color pulseEmission = new Color(0.4f, 1.2f, 3f);
         public string emissionProperty = "_EmissionColor";
 
-        [Header("波形")]
-        [Tooltip("每拍传播的世界距离")]
+        [Header("Wave Settings / 波形")]
+        [Tooltip("World distance traveled per beat / 每拍传播的世界距离")]
         public float waveSpeed = 12f;
         public float waveWidth = 2.5f;
         public float maxDistance = 80f;
         public float beatStrength = 0.5f;
         public float barStrength = 1f;
-        [Tooltip("离球这么近的灯环不参与脉冲，保持判定区清爽")]
+        [Tooltip("Exclude rings within this distance of the ball to keep the judgement area clear / 离球这么近的灯环不参与脉冲，保持判定区清爽")]
         public float skipNearDistance = 3f;
         [Range(0f, 1f)] public float maxPulse = 0.6f;
 

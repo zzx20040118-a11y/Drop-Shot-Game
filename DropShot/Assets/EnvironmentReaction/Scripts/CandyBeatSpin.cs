@@ -9,11 +9,11 @@ namespace DropShot.Environment
 {
     public class CandyBeatSpin : MonoBehaviour
     {
-        [Tooltip("每拍旋转的角度。90 = 每小节转一圈")]
+        [Tooltip("Rotation per beat in degrees; 90 means one full turn per four-beat bar / 每拍旋转的角度。90 = 每小节转一圈")]
         public float degreesPerBeat = 90f;
-        [Tooltip("每拍弹一下的缩放幅度")]
+        [Tooltip("Scale bounce strength per beat / 每拍弹一下的缩放幅度")]
         public float beatSquash = 0.06f;
-        [Tooltip("Strike 提示 / 蓄力时转速倍率")]
+        [Tooltip("Rotation speed multiplier during Strike cues and charging / Strike 提示 / 蓄力时转速倍率")]
         public float holdingBreathSpeed = 0.3f;
         public bool randomAxis = true;
 
