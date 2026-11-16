@@ -1,0 +1,11 @@
+-target:exe
+-nostdlib+
+-nologo
+-out:"work/RestoreLongCheck.dll"
+-r:"C:\Program Files\Unity\Hub\Editor\6000.3.22f1\Editor\Data\NetCoreRuntime\shared\Microsoft.NETCore.App\6.0.21\System.Private.CoreLib.dll"
+-r:"C:\Program Files\Unity\Hub\Editor\6000.3.22f1\Editor\Data\NetCoreRuntime\shared\Microsoft.NETCore.App\6.0.21\System.Runtime.dll"
+-r:"C:\Program Files\Unity\Hub\Editor\6000.3.22f1\Editor\Data\NetCoreRuntime\shared\Microsoft.NETCore.App\6.0.21\System.Console.dll"
+-r:"C:\Program Files\Unity\Hub\Editor\6000.3.22f1\Editor\Data\NetCoreRuntime\shared\Microsoft.NETCore.App\6.0.21\System.Collections.dll"
+"DropShot/Assets/DropShotJudgement/Scripts/JudgeCore.cs"
+"DropShot/Assets/DropShotJudgement/Scripts/JudgeTypes.cs"
+"work/RestoreLongCheck.cs"

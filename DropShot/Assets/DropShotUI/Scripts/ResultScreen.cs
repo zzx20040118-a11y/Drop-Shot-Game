@@ -50,11 +50,29 @@ namespace DropShot.UI
 
         [Header("音效（可空）")]
         public AudioSource sfx;
+        public AudioClip bottleLandClip;
         public AudioClip countTickClip;
         public AudioClip countDoneClip;
         public AudioClip rowClip;
         public AudioClip stampClip;
         public AudioClip rankChimeClip;
+
+        LeaderboardPanelController leaderboardPanels;
+
+        public bool LeaderboardIsOpen => leaderboardPanels != null &&
+            ((leaderboardPanels.submitScorePanel != null && leaderboardPanels.submitScorePanel.activeInHierarchy) ||
+             (leaderboardPanels.leaderboardPanel != null && leaderboardPanels.leaderboardPanel.activeInHierarchy));
+
+        public bool AllowsButton(Transform button)
+        {
+            if (!LeaderboardIsOpen) return true;
+            return (leaderboardPanels.submitScorePanel != null &&
+                    leaderboardPanels.submitScorePanel.activeInHierarchy &&
+                    button.IsChildOf(leaderboardPanels.submitScorePanel.transform)) ||
+                   (leaderboardPanels.leaderboardPanel != null &&
+                    leaderboardPanels.leaderboardPanel.activeInHierarchy &&
+                    button.IsChildOf(leaderboardPanels.leaderboardPanel.transform));
+        }
 
         float speed = 1f;
         bool sequenceDone;
@@ -62,6 +80,7 @@ namespace DropShot.UI
 
         void Awake()
         {
+            leaderboardPanels = FindFirstObjectByType<LeaderboardPanelController>();
             if (!string.IsNullOrEmpty(ScoreBoard.GameSceneName))
                 gameSceneName = ScoreBoard.GameSceneName;
 
@@ -105,7 +124,7 @@ namespace DropShot.UI
 
         void Update()
         {
-            if (sequenceDone)
+            if (sequenceDone || LeaderboardIsOpen)
                 return;
 
             if (KeyInput.Down(KeyCode.Space) ||
@@ -142,12 +161,20 @@ namespace DropShot.UI
 
             yield return Wait(0.3f);
 
-            // RESULT 标题入场
+            // Play once at the first ground contact of the bottle's bounce.
+            bool bottleLanded = false;
             yield return Tween(0.8f, t =>
+            {
                 header.anchoredPosition = Vector2.LerpUnclamped(
                     headerHome + Vector2.up * 700f,
                     headerHome,
-                    UITween.OutBounce(t)));
+                    UITween.OutBounce(t));
+                if (!bottleLanded && t >= 1f / 2.75f)
+                {
+                    bottleLanded = true;
+                    Play(bottleLandClip);
+                }
+            });
 
             StartCoroutine(
                 UITween.Jelly(header, Vector3.one, 0.1f, 0.4f));

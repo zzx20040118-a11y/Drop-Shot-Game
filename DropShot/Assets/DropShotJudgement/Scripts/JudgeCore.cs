@@ -198,7 +198,7 @@ namespace DropShot.Judgement
 
             if (e.kind == NoteKind.Long)
             {
-                // 尾端必须松开，提前或延后都按时间差判定。
+                // 提前松开：在 Good 窗口内仍算成功，否则断掉
                 Emit(e, JudgePhase.Tail, Grade(d), d);
                 LongHoldEnded?.Invoke(e.index);
             }
@@ -246,7 +246,7 @@ namespace DropShot.Judgement
             AdvanceCursor();
         }
 
-        // 每帧调用：结算超时没松的长音、Strike，以及错过的音符。
+        // 每帧调用：结算按住到底的长条、超时没松的 Strike、以及错过的音符
         public void Tick(double t)
         {
             // Strike 到达谱面 time 时自动进入 Holding 并触发事件
@@ -318,11 +318,11 @@ namespace DropShot.Judgement
                     int k = holding[lane];
                     ref Entry e = ref entries[k];
 
-                    if (e.kind == NoteKind.Long && t > e.end + settings.goodWindow)
+                    if (e.kind == NoteKind.Long && t >= e.end)
                     {
                         holding.Remove(lane);
                         e.state = State.Done;
-                        Emit(e, JudgePhase.Tail, JudgeResult.Miss, 0);
+                        Emit(e, JudgePhase.Tail, JudgeResult.Perfect, 0);
                         LongHoldEnded?.Invoke(e.index);
                     }
                     else if (e.kind == NoteKind.Strike && t > e.end + settings.goodWindow)

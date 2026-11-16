@@ -17,6 +17,9 @@ public class LeaderboardPanelController : MonoBehaviour
     public Sprite easyBackground;
     public Sprite hardBackground;
 
+    // 本局是否已经成功上传成绩
+    private bool hasSubmittedScore = false;
+
     private void Start()
     {
         if (submitScorePanel != null)
@@ -29,6 +32,13 @@ public class LeaderboardPanelController : MonoBehaviour
     // 结算页点击 LEADERBOARD
     public void OpenSubmitScorePanel()
     {
+        // 如果本局已经上传过，直接打开排行榜
+        if (hasSubmittedScore)
+        {
+            OpenLeaderboard();
+            return;
+        }
+
         if (submitScorePanel != null)
             submitScorePanel.SetActive(true);
 
@@ -39,6 +49,7 @@ public class LeaderboardPanelController : MonoBehaviour
     // 上传成功后自动进入排行榜
     public void OnScoreSubmitted()
     {
+        hasSubmittedScore = true;
         OpenLeaderboard();
     }
 
@@ -88,5 +99,11 @@ public class LeaderboardPanelController : MonoBehaviour
     {
         if (leaderboardPanel != null)
             leaderboardPanel.SetActive(false);
+    }
+
+    // 新一局开始时重置上传状态
+    public void ResetSubmission()
+    {
+        hasSubmittedScore = false;
     }
 }

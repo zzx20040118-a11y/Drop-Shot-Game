@@ -1702,6 +1702,7 @@ RectTransform:
   - {fileID: 5886442790018087262}
   - {fileID: 1007835602884228718}
   - {fileID: 2250526837390169320}
+  - {fileID: 1701998620240550661}
   m_Father: {fileID: 6706311801423422416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4358,7 +4359,6 @@ RectTransform:
   - {fileID: 6509354342565408722}
   - {fileID: 1468856599139010645}
   - {fileID: 6292326338910230224}
-  - {fileID: 1701998620240550661}
   - {fileID: 3351349482142154451}
   - {fileID: 4698815128507056643}
   - {fileID: 7013448827988466687}
@@ -4557,6 +4557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e6c9bdc09c14f14bee165a29c0d590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropShot.UI.ResultScreen
+  bottleLandClip: {fileID: 8300000, guid: a5aced7da43244738fc2068fb39380de, type: 3}
   titleSceneName: TitleScene
   gameSceneName: Game_B_Easy
   fader: {fileID: 7960002820416933792}
@@ -4976,7 +4977,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6706311801423422416}
+  m_Father: {fileID: 6292326338910230224}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.87}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

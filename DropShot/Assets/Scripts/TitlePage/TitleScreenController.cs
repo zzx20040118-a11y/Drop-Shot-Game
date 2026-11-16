@@ -38,7 +38,21 @@ public class TitleScreenController : MonoBehaviour
         if (isLoading)
             return;
 
+        TitleMenuAudio menuAudio = GetComponent<TitleMenuAudio>();
+        if (menuAudio != null) menuAudio.PlayClick(true);
+
         StartCoroutine(LoadingRoutine());
+    }
+
+    public void OnQuitButtonClicked()
+    {
+        if (isLoading) return;
+        isLoading = true;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     // ================= 加载流程 =================

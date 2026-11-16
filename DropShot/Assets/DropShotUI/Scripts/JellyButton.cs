@@ -32,6 +32,10 @@ namespace DropShot.UI
         public AudioClip clickClip;
 
         public UnityEvent onClick = new UnityEvent();
+        public UnityEvent onHover = new UnityEvent();
+
+        ResultScreen resultScreen;
+        bool InputAllowed => resultScreen == null || resultScreen.AllowsButton(transform);
 
         Vector2 visualBasePos, shadowBasePos;
         float hover, press;          // 0..1，平滑过渡
@@ -40,6 +44,7 @@ namespace DropShot.UI
 
         void Awake()
         {
+            resultScreen = GetComponentInParent<ResultScreen>();
             if (visual == null) visual = (RectTransform)transform;
             visualBasePos = visual.anchoredPosition;
             if (shadow != null) shadowBasePos = shadow.anchoredPosition;
@@ -49,6 +54,7 @@ namespace DropShot.UI
         void Update()
         {
             if (busy) return;
+            if (!InputAllowed) { hovering = false; pressing = false; }
             float dt = Time.unscaledDeltaTime;
             hover = Mathf.MoveTowards(hover, hovering && interactable ? 1f : 0f, dt * 8f);
             press = Mathf.MoveTowards(press, pressing && interactable ? 1f : 0f, dt * 14f);
@@ -60,23 +66,25 @@ namespace DropShot.UI
             visual.localRotation = Quaternion.Euler(0f, 0f, hoverTilt * hover * (1f - press));
             visual.anchoredPosition = visualBasePos + Vector2.down * pressSink * press;
 
-            if (interactable && hotkey != KeyCode.None && KeyInput.Down(hotkey)) Click();
+            if (InputAllowed && interactable && hotkey != KeyCode.None && KeyInput.Down(hotkey)) Click();
         }
 
         public void OnPointerEnter(PointerEventData e)
         {
+            if (!InputAllowed) return;
             hovering = true;
+            if (interactable && !busy) onHover.Invoke();
             if (interactable && sfx != null && hoverClip != null) sfx.PlayOneShot(hoverClip, 0.5f);
         }
 
         public void OnPointerExit(PointerEventData e) { hovering = false; pressing = false; }
-        public void OnPointerDown(PointerEventData e) { pressing = true; }
+        public void OnPointerDown(PointerEventData e) { if (InputAllowed) pressing = true; }
         public void OnPointerUp(PointerEventData e) { pressing = false; }
         public void OnPointerClick(PointerEventData e) { Click(); }
 
         public void Click()
         {
-            if (!interactable || busy) return;
+            if (!InputAllowed || !interactable || busy) return;
             StartCoroutine(ClickRoutine());
         }
 
